@@ -1,8 +1,4 @@
 ---
-published: false
----
-
----
 layout: post
 category: vulnerabilities and exploits
 title: "Multiple Vulnerabilities Discovered in the Torrents Time Application"
