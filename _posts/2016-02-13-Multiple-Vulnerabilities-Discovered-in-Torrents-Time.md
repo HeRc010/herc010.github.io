@@ -39,5 +39,3 @@ The plugin installer may be programmatically re-downloaded, however after minor 
 
 [1] [blog.andrew.im, "Torrents-time Security Issues", 2016.](http://blog.andrew.im/post/139084882590/torrents-time-security-issues) [Accessed: 13-Feb-2016].  
 [2] [news.softpedia.com, "Torrents Time Plugin Plagued by Security Issues, Pirate Bay & KAT Users at Risk", 2016.](http://news.softpedia.com/news/torrents-time-plugin-plagued-by-security-issues-pirate-bay-kat-users-at-risk-500334.shtml) [Accessed: 13-Feb-2016].
-
-Enter text in [Markdown](http://daringfireball.net/projects/markdown/). Use the toolbar above, or click the **?** button for formatting help.
