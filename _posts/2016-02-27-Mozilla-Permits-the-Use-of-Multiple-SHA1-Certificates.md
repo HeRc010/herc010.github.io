@@ -25,7 +25,7 @@ Mozilla (and other browser developers alike) are operating in a difficult positi
 
 ##Sources:
 
-[1] [news.softpedia.com, "Mozilla Gives a Security Pass to the People it Shouldn't", 2016.](http://news.softpedia.com/news/mozilla-gives-a-security-pass-to-the-people-it-shouldn-t-500986.shtml) [Accessed: 27-Feb-2016].
+[1] [news.softpedia.com, "Mozilla Gives a Security Pass to the People it Shouldn't", 2016.](http://news.softpedia.com/news/mozilla-gives-a-security-pass-to-the-people-it-shouldn-t-500986.shtml) [Accessed: 27-Feb-2016].  
 [2] [eprint.iacr.org, "Freestart Collision for Full SHA-1", 2016.](https://eprint.iacr.org/2015/967.pdf) [Accessed: 27-Feb-2016].  
-[3] [news.softpedia.com, "SHA1 Algorithm Could Become Useless by the End of the Year", 2016.](http://news.softpedia.com/news/sha1-algorithm-could-become-useless-by-the-end-of-the-year-494097.shtml) [Accessed: 27-Feb-2016].
-[4] [en.wikipedia.org, "Collision Attack", 2016.](https://en.wikipedia.org/wiki/Collision_attack) [Accessed: 27-Feb-2016].
+[3] [news.softpedia.com, "SHA1 Algorithm Could Become Useless by the End of the Year", 2016.](http://news.softpedia.com/news/sha1-algorithm-could-become-useless-by-the-end-of-the-year-494097.shtml) [Accessed: 27-Feb-2016].  
+[4] [en.wikipedia.org, "Collision Attack", 2016.](https://en.wikipedia.org/wiki/Collision_attack) [Accessed: 27-Feb-2016].  
