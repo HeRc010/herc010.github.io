@@ -21,7 +21,7 @@ The contents of multiple databases (Staminus’ main database, the Intreppid dat
 
 Additionally, the Hastebin link contained a satirical list of ‘Tips when Running a Security Company’ which disclosed potential vulnerabilities which were likely exploited during the attack [2], including but not limited to a shared root password used by the servers, exposed power distribution units on a telnet WAN and comprehensive credit card information being stored in plaintext.
 
-##Sources
+## Sources
 
-[1] [news.softpedia.com, "Hackers Breach DDoS Protection Firm Staminus", 2016.](http://news.softpedia.com/news/hackers-breach-ddos-protection-firm-staminus-501625.shtml) [Accessed: 11-Mar-2016].
-[2] [reddit.com, "Staminus Communications and KKK.com Hacked in Major Security Breach", 2016.](http://news.softpedia.com/news/hackers-breach-ddos-protection-firm-staminus-501625.shtml) [Accessed: 11-Mar-2016].
+[1] [news.softpedia.com, "Hackers Breach DDoS Protection Firm Staminus", 2016.](http://news.softpedia.com/news/hackers-breach-ddos-protection-firm-staminus-501625.shtml) [Accessed: 11-Mar-2016].  
+[2] [reddit.com, "Staminus Communications and KKK.com Hacked in Major Security Breach", 2016.](http://news.softpedia.com/news/hackers-breach-ddos-protection-firm-staminus-501625.shtml) [Accessed: 11-Mar-2016].  
