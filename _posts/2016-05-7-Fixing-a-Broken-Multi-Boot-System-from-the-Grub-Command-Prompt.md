@@ -3,7 +3,7 @@ layout: post
 category: Day-to-Day Linux
 title: "Fixing a Broken Multi-Boot System from the Grub Command Prompt"
 tagline: ""
-tags : [Grub, Debian, Ubuntu, Windows 10, Dual Boot]
+tags : [Grub2, Debian, Ubuntu, Windows 10, Dual Boot]
 ---
 {% include JB/setup %}
 
