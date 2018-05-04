@@ -1,8 +1,8 @@
-#+TITLE:       Multiple Vulnerabilities Discovered in Torrents Time
+#+TITLE:       Multiple Vulnerabilities Discovered in the Torrents Time Application
 #+AUTHOR:      Andrew L
 #+EMAIL:       adlawren@onyx
 #+DATE:        2018-05-04 Fri
-#+URI:         /blog/2016/2/13/multiple-vulnerabilities-discovered-in-torrents-time
+#+URI:         /blog/2016/2/13/multiple-vulnerabilities-discovered-in-the-torrents-time-application
 #+KEYWORDS:    Vulnerability, Exploit, Torrents Time
 #+TAGS:        Vulnerability, Exploit
 #+LANGUAGE:    en
@@ -41,5 +41,5 @@ The plugin installer may be programmatically re-downloaded, however after minor 
 
 * Sources
 
-[1] [[http://blog.andrew.im/post/139084882590/torrents-time-security-issues][blog.andrew.im, "Torrents-time Security Issues", 2016.]] [Accessed: 13-Feb-2016]
-[2] [[http://news.softpedia.com/news/torrents-time-plugin-plagued-by-security-issues-pirate-bay-kat-users-at-risk-500334.shtml][news.softpedia.com, "Torrents Time Plugin Plagued by Security Issues, Pirate Bay & KAT Users at Risk", 2016.]] [Accessed: 13-Feb-2016]
+[1] [[http://blog.andrew.im/post/139084882590/torrents-time-security-issues][blog.andrew.im, "Torrents-time Security Issues", 2016.]] [Accessed: 13-Feb-2016].
+[2] [[http://news.softpedia.com/news/torrents-time-plugin-plagued-by-security-issues-pirate-bay-kat-users-at-risk-500334.shtml][news.softpedia.com, "Torrents Time Plugin Plagued by Security Issues, Pirate Bay & KAT Users at Risk", 2016.]] [Accessed: 13-Feb-2016].
