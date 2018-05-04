@@ -4,8 +4,8 @@
     <title>Bits and Bytes</title>
     <link>http://adlawren.github.io</link>
     <description>static site generator</description>
-    <pubDate>Thu, 03 May 2018 20:50:57 MDT</pubDate>
-    <lastBuildDate>Thu, 03 May 2018 20:50:57 MDT</lastBuildDate>
+    <pubDate>Thu, 03 May 2018 20:52:43 MDT</pubDate>
+    <lastBuildDate>Thu, 03 May 2018 20:52:43 MDT</lastBuildDate>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>Org-page static site generator (https://github.com/kelvinh/org-page)</generator>
     <item>
@@ -35,6 +35,13 @@
       <description><![CDATA[Test 6]]></description>
       <pubDate>2018-05-03</pubDate>
       <guid>http://adlawren.github.io/blog/2018/05/03/test-6</guid>
+    </item>
+    <item>
+      <title>Test 7</title>
+      <link>http://adlawren.github.io/blog/2018/05/03/test-7</link>
+      <description><![CDATA[Test 7]]></description>
+      <pubDate>2018-05-03</pubDate>
+      <guid>http://adlawren.github.io/blog/2018/05/03/test-7</guid>
     </item>
   </channel>
 </rss>
