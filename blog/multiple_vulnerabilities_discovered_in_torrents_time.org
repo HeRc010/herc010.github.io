@@ -9,6 +9,8 @@
 #+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
 #+DESCRIPTION: Multiple Vulnerabilities Discovered in the Torrents Time Application
 
+#+OPTIONS: \n:t
+
 * TL;DR
 
 A significant number of vulnerabilities in the Torents Time application were recently discovered [1].
