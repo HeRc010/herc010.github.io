@@ -4,9 +4,16 @@
     <title>Bits and Bytes</title>
     <link>http://adlawren.github.io</link>
     <description>static site generator</description>
-    <pubDate>Fri, 04 May 2018 16:16:30 MDT</pubDate>
-    <lastBuildDate>Fri, 04 May 2018 16:16:30 MDT</lastBuildDate>
+    <pubDate>Fri, 04 May 2018 16:38:49 MDT</pubDate>
+    <lastBuildDate>Fri, 04 May 2018 16:38:49 MDT</lastBuildDate>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>Org-page static site generator (https://github.com/kelvinh/org-page)</generator>
+    <item>
+      <title>Multiple Vulnerabilities Discovered in Torrents Time</title>
+      <link>http://adlawren.github.io/blog/2016/2/13/multiple-vulnerabilities-discovered-in-torrents-time</link>
+      <description><![CDATA[Multiple Vulnerabilities Discovered in the Torrents Time Application]]></description>
+      <pubDate>2018-05-04</pubDate>
+      <guid>http://adlawren.github.io/blog/2016/2/13/multiple-vulnerabilities-discovered-in-torrents-time</guid>
+    </item>
   </channel>
 </rss>
