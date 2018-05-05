@@ -4,8 +4,8 @@
     <title>Bits and Bytes</title>
     <link>http://adlawren.github.io</link>
     <description>Notes from the deviant pursuits of a technical vagrant</description>
-    <pubDate>Sat, 05 May 2018 12:43:28 MDT</pubDate>
-    <lastBuildDate>Sat, 05 May 2018 12:43:28 MDT</lastBuildDate>
+    <pubDate>Sat, 05 May 2018 13:17:52 MDT</pubDate>
+    <lastBuildDate>Sat, 05 May 2018 13:17:52 MDT</lastBuildDate>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>Org-page static site generator (https://github.com/kelvinh/org-page)</generator>
     <item>
@@ -63,6 +63,13 @@
       <description><![CDATA[Recently Discovered Vulnerability in the OpenSSH Roaming Feature]]></description>
       <pubDate>2018-05-05</pubDate>
       <guid>http://adlawren.github.io/blog/2016/02/06/recently-discovered-vulnerability-in-the-openssh-roaming-feature</guid>
+    </item>
+    <item>
+      <title>Remapping the Right-Alt Key in Colemak</title>
+      <link>http://adlawren.github.io/blog/2017/12/15/remapping-the-right-alt-key-in-colemak</link>
+      <description><![CDATA[Remapping the Right-Alt Key in Colemak]]></description>
+      <pubDate>2018-05-05</pubDate>
+      <guid>http://adlawren.github.io/blog/2017/12/15/remapping-the-right-alt-key-in-colemak</guid>
     </item>
     <item>
       <title>Staminus Communications Recently Hacked</title>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Remapping the Right-Alt Key in Colemak - Bits and Bytes</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew L" />
+    <meta name="description" content="Remapping the Right-Alt Key in Colemak" />
+    <meta name="keywords" content="Ubuntu, Colemak, Keyboard Layout" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Bits and Bytes</a></h1>
+        <p>Notes from the deviant pursuits of a technical vagrant</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/adlawren">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="//www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="adlawren.github.io">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Remapping the Right-Alt Key in Colemak</h1>
+
+<div id="outline-container-org9c308a4" class="outline-2">
+<h2 id="org9c308a4">Overview</h2>
+<div class="outline-text-2" id="text-org9c308a4">
+<p>
+When using Colemak on Ubuntu, by default the right-alt key is mapped to "Level 3 shift." An unfortunate side effect is that when alt-tabbing, you are unable to use the right-alt key.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgadd4703" class="outline-2">
+<h2 id="orgadd4703">Solution</h2>
+<div class="outline-text-2" id="text-orgadd4703">
+<p>
+I Spent a lot of time looking at different possible solutions (setxkbmap stuff mostly), but eventually I found a way to use xmodmap to set the value of the key to the right-alt key.<br />
+</p>
+
+<p>
+To switch to the Colemak layout, enter the following in a shell:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">setxkbmap us -variant colemak
+</pre>
+</div>
+
+<p>
+Alternatively, you can set the layout using System Settings.<br />
+</p>
+
+<p>
+Next, find the keycode of the right-alt key. I inspected the keymap through system settings [add supporting how-to workflow] and observed that the right-alt key is remmapped to a "Level 3 Shift" in the Colemak layout.<br />
+</p>
+
+<p>
+The keycode of the "Level 3 Shift" key can be found by running the following command in a shell:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">xmodmap -pke | grep Shift
+</pre>
+</div>
+
+<p>
+In my case, the keycode is 108.<br />
+</p>
+
+<p>
+This key can be remapped to the righ-alt key using the xmodmap tool (as shown in [1] and [2]) by running the following command in a shell.<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">xmodmap -e "keycode 108 = Alt_R Meta_R Alt_R Meta_R"
+</pre>
+</div>
+
+<p>
+This command can be executed automatically each time the computer boots by adding a startup command, as described in [3].<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgeceb088" class="outline-2">
+<h2 id="orgeceb088">Sources</h2>
+<div class="outline-text-2" id="text-orgeceb088">
+<p>
+[1] <a href="https://askubuntu.com/questions/296155/how-can-i-remap-keyboard-keys/296437#296437">https://askubuntu.com/questions/296155/how-can-i-remap-keyboard-keys/296437#296437, "How can I remap keyboard keys? &#91;duplicate&#93;", 2013.</a> [Accessed: 15-Dec-2017].<br />
+[2] <a href="https://askubuntu.com/questions/333897/how-to-apply-xmodmap-permanently/333917#333917">https://superuser.com/questions/2194/remap-keys-in-linux, "Remap Keys in Linux", 2014.</a> [Accessed: 15-Dec-2017].<br />
+[3] <a href="https://askubuntu.com/questions/333897/how-to-apply-xmodmap-permanently/333917#333917">https://superuser.com/questions/2194/remap-keys-in-linux, "How to apply Xmodmap permanently", 2013.</a> [Accessed: 15-Dec-2017].<br />
+</p>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2017-12-15</span>
+        <span title="last modification date" class="post-info">2018-05-05</span>
+        <span title="tags" class="post-info"><a href="/tags/ubuntu/">Ubuntu</a>, <a href="/tags/colemak/">Colemak</a>, <a href="/tags/keyboard-layout/">Keyboard Layout</a></span>
+        <span title="author" class="post-info">Andrew L</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2017/12/15/remapping-the-right-alt-key-in-colemak";
+          var disqus_url = "http://adlawren.github.io/blog/2017/12/15/remapping-the-right-alt-key-in-colemak";
+          var disqus_shortname = 'adlawren';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="//disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="//code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 9.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:adlawren &lt;at&gt; onyx">Andrew L</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>

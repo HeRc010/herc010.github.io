@@ -32,9 +32,9 @@
 <div class="post">
 <h1>Installing And Configuring PostgreSQL And Libpqxx On Ubuntu</h1>
 
-<div id="outline-container-orgfbfe2e2" class="outline-2">
-<h2 id="orgfbfe2e2">Installation</h2>
-<div class="outline-text-2" id="text-orgfbfe2e2">
+<div id="outline-container-orge781425" class="outline-2">
+<h2 id="orge781425">Installation</h2>
+<div class="outline-text-2" id="text-orge781425">
 <p>
 To install the packages needed (including the postgres server [1], client and libpqxx), enter the following at a prompt:<br />
 </p>
@@ -46,9 +46,9 @@ To install the packages needed (including the postgres server [1], client and li
 </div>
 </div>
 
-<div id="outline-container-orgfad953b" class="outline-2">
-<h2 id="orgfad953b">Database Configuration</h2>
-<div class="outline-text-2" id="text-orgfad953b">
+<div id="outline-container-orgd77a50d" class="outline-2">
+<h2 id="orgd77a50d">Database Configuration</h2>
+<div class="outline-text-2" id="text-orgd77a50d">
 <p>
 This process was found on the Ubuntu Documentation site [2].<br />
 </p>
@@ -114,9 +114,9 @@ Next, restart the PostreSQL service, entering the following at a prompt:<br />
 </div>
 </div>
 
-<div id="outline-container-org219913b" class="outline-2">
-<h2 id="org219913b">Creating a Database for Testing</h2>
-<div class="outline-text-2" id="text-org219913b">
+<div id="outline-container-org8a37b4f" class="outline-2">
+<h2 id="org8a37b4f">Creating a Database for Testing</h2>
+<div class="outline-text-2" id="text-org8a37b4f">
 <p>
 Enter the following command at a prompt, afterwards providing the password for the postgres user configured earlier, to create a new database called 'db_test':<br />
 </p>
@@ -138,9 +138,9 @@ insert into provinces (id, name, population) values (1, 'alberta', 24);
 </div>
 </div>
 
-<div id="outline-container-org6333ccc" class="outline-2">
-<h2 id="org6333ccc">Connector Application Source Code</h2>
-<div class="outline-text-2" id="text-org6333ccc">
+<div id="outline-container-org69ef84c" class="outline-2">
+<h2 id="org69ef84c">Connector Application Source Code</h2>
+<div class="outline-text-2" id="text-org69ef84c">
 <p>
 An example of interaction with the afore created database using libpqxx is shown below, implemented within a main.cpp file. The implementation was conducted referencing source found on the libpqxx site [3] (under the 'Example' section). To successfully run the sample, manually replace 'PASSWORD' with the password given to the postgres user configured above:<br />
 </p>
@@ -249,9 +249,9 @@ A copy of the source is available <a href="https://github.com/adlawren/PostgreSQ
 </div>
 </div>
 
-<div id="outline-container-orga43d380" class="outline-2">
-<h2 id="orga43d380">Sources</h2>
-<div class="outline-text-2" id="text-orga43d380">
+<div id="outline-container-org8e08a18" class="outline-2">
+<h2 id="org8e08a18">Sources</h2>
+<div class="outline-text-2" id="text-org8e08a18">
 <p>
 [1] <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-12-04">https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-12-04, "How To Install and Use PostgreSQL on Ubuntu 12.04", 2016.</a> [Accessed: 27-Aug-2016].<br />
 [2] <a href="https://help.ubuntu.com/stable/serverguide/postgresql.html">https://help.ubuntu.com/stable/serverguide/postgresql.html, "PostgreSQL", 2016.</a> [Accessed: 27-Aug-2016].<br />
