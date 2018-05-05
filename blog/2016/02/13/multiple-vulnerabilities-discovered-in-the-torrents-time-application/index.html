@@ -32,36 +32,36 @@
 <div class="post">
 <h1>Multiple Vulnerabilities Discovered in the Torrents Time Application</h1>
 
-<div id="outline-container-org7d5852e" class="outline-2">
-<h2 id="org7d5852e">TL;DR</h2>
-<div class="outline-text-2" id="text-org7d5852e">
+<div id="outline-container-org11935a4" class="outline-2">
+<h2 id="org11935a4">TL;DR</h2>
+<div class="outline-text-2" id="text-org11935a4">
 <p>
 A significant number of vulnerabilities in the Torents Time application were recently discovered [1].<br />
 </p>
 </div>
 </div>
 
-<div id="outline-container-orge1df260" class="outline-2">
-<h2 id="orge1df260">Overview</h2>
-<div class="outline-text-2" id="text-orge1df260">
+<div id="outline-container-org833115b" class="outline-2">
+<h2 id="org833115b">Overview</h2>
+<div class="outline-text-2" id="text-org833115b">
 <p>
 Torrents Time (hereafter abbreviated as TT) is an application which facilitates the ‘instant’ download and streaming of torrented material within a browser, as an alternative to downloading the torrent using a local torrent client. TT is currently experiencing widespread use after adoption by multiple popular torrenting websites, including The Pirate Bay, as a streaming feature [2].<br />
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgf5af96d" class="outline-2">
-<h2 id="orgf5af96d">Installation Details</h2>
-<div class="outline-text-2" id="text-orgf5af96d">
+<div id="outline-container-org722d986" class="outline-2">
+<h2 id="org722d986">Installation Details</h2>
+<div class="outline-text-2" id="text-org722d986">
 <p>
 Users of TT are required to download an installer, which deploys a local node.js server and installs a browser plugin.<br />
 </p>
 </div>
 </div>
 
-<div id="outline-container-org83a0491" class="outline-2">
-<h2 id="org83a0491">CORS Abuse</h2>
-<div class="outline-text-2" id="text-org83a0491">
+<div id="outline-container-orgcf52ce1" class="outline-2">
+<h2 id="orgcf52ce1">CORS Abuse</h2>
+<div class="outline-text-2" id="text-orgcf52ce1">
 <p>
 TT is subject to MITM attacks due to the improper implementation of CORS requests. As a result, a web page which mimics the web page being accessed by a user may be fabricated by an attacker with an additional script in the HTML head tag. The attacker may subsequently make use of the functionality loaded in the TT scripts. Possible malicious activities include:<br />
 </p>
@@ -74,27 +74,27 @@ Acquisition of information by those interested (advertisers for example) which c
 </div>
 </div>
 
-<div id="outline-container-orgf294a7b" class="outline-2">
-<h2 id="orgf294a7b">Root Access on Mac OS X</h2>
-<div class="outline-text-2" id="text-orgf294a7b">
+<div id="outline-container-org727286b" class="outline-2">
+<h2 id="org727286b">Root Access on Mac OS X</h2>
+<div class="outline-text-2" id="text-org727286b">
 <p>
 The OS X TT client runs with root access, rendering Apple users immensely vulnerable to a wide range of malicious activities.<br />
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgab30328" class="outline-2">
-<h2 id="orgab30328">Browser Plugin Installer Download</h2>
-<div class="outline-text-2" id="text-orgab30328">
+<div id="outline-container-orgacae8ba" class="outline-2">
+<h2 id="orgacae8ba">Browser Plugin Installer Download</h2>
+<div class="outline-text-2" id="text-orgacae8ba">
 <p>
 The plugin installer may be programmatically re-downloaded, however after minor changes an alternate executable may be downloaded instead, affording an attacker the opportunity for any number of malicious activities, including but not limited to the installation of malware.<br />
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgf28d69f" class="outline-2">
-<h2 id="orgf28d69f">Sources</h2>
-<div class="outline-text-2" id="text-orgf28d69f">
+<div id="outline-container-orge20d0c6" class="outline-2">
+<h2 id="orge20d0c6">Sources</h2>
+<div class="outline-text-2" id="text-orge20d0c6">
 <p>
 [1] <a href="http://blog.andrew.im/post/139084882590/torrents-time-security-issues">blog.andrew.im, "Torrents-time Security Issues", 2016.</a> [Accessed: 13-Feb-2016].<br />
 [2] <a href="http://news.softpedia.com/news/torrents-time-plugin-plagued-by-security-issues-pirate-bay-kat-users-at-risk-500334.shtml">news.softpedia.com, "Torrents Time Plugin Plagued by Security Issues, Pirate Bay &amp; KAT Users at Risk", 2016.</a> [Accessed: 13-Feb-2016].<br />

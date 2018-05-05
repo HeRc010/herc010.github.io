@@ -32,9 +32,9 @@
 <div class="post">
 <h1>Fixing a Broken Multi-Boot System from the Grub Command Prompt</h1>
 
-<div id="outline-container-org8485719" class="outline-2">
-<h2 id="org8485719">Overview</h2>
-<div class="outline-text-2" id="text-org8485719">
+<div id="outline-container-org7eb0a6e" class="outline-2">
+<h2 id="org7eb0a6e">Overview</h2>
+<div class="outline-text-2" id="text-org7eb0a6e">
 <p>
 I use an ASUS laptop with a UEFI motherboard for the majority of my computing tasks, which until recently utilized a dual boot system hosting both Windows 10 and Ubuntu 15.04, though I almost exclusively used Ubuntu.<br />
 </p>
@@ -49,9 +49,9 @@ After deleting the existing Ubuntu partition within Windows in order to make spa
 </div>
 </div>
 
-<div id="outline-container-orgb7684c3" class="outline-2">
-<h2 id="orgb7684c3">Boot Failure</h2>
-<div class="outline-text-2" id="text-orgb7684c3">
+<div id="outline-container-org68d73e6" class="outline-2">
+<h2 id="org68d73e6">Boot Failure</h2>
+<div class="outline-text-2" id="text-org68d73e6">
 <p>
 Follwing such discourse I witnessed the following, indicative of a boot failure:<br />
 </p>
@@ -68,9 +68,9 @@ After selecting ok, and a few lines of text being printed to the screen in suces
 </div>
 </div>
 
-<div id="outline-container-orga119e9b" class="outline-2">
-<h2 id="orga119e9b">Booting the Debian Installer from the Bootable USB</h2>
-<div class="outline-text-2" id="text-orga119e9b">
+<div id="outline-container-org80dd308" class="outline-2">
+<h2 id="org80dd308">Booting the Debian Installer from the Bootable USB</h2>
+<div class="outline-text-2" id="text-org80dd308">
 <p>
 After further examination of the contents of the accessible disks, and after doing some research online, I noticed a pair of adjacent files on the bootable USB looked familiar, indeed similar to the files shown in a particular blog post [1]. I applied the following sequence of commands, similar to those used in the blog post:<br />
 </p>
@@ -89,9 +89,9 @@ In doing so, I managed to launch the Debian installer in non-graphical mode. My 
 </div>
 </div>
 
-<div id="outline-container-orgcbf9a55" class="outline-2">
-<h2 id="orgcbf9a55">Loading the GRUB Configuration File</h2>
-<div class="outline-text-2" id="text-orgcbf9a55">
+<div id="outline-container-orgba4ba33" class="outline-2">
+<h2 id="orgba4ba33">Loading the GRUB Configuration File</h2>
+<div class="outline-text-2" id="text-orgba4ba33">
 <p>
 However after installing Debian and rebooting, the issue persisted. After further examination of the disk contents, and a significant amount of time invested in reading material online, at one point after reading the contents of the grub.cfg file residing in the hard disk of the computer at the path: '(hd1,1)/EFI/ubuntu/', I realized that GRUB was simply loading another grub.cfg file from the '<i>boot/grub</i>' directory within a particular partition, which I assumed previously held the Ubuntu installation.<br />
 </p>
@@ -113,9 +113,9 @@ Not knowing which partition within which Debian was installed however, I applied
 </div>
 </div>
 
-<div id="outline-container-orgdffb341" class="outline-2">
-<h2 id="orgdffb341">Sources</h2>
-<div class="outline-text-2" id="text-orgdffb341">
+<div id="outline-container-org4ea2cc1" class="outline-2">
+<h2 id="org4ea2cc1">Sources</h2>
+<div class="outline-text-2" id="text-org4ea2cc1">
 <p>
 [1] <a href="http://karuppuswamy.com/wordpress/2011/09/09/how-to-fix-grub-rescue-prompt-without-live-cd-for-grub2/">http://karuppuswamy.com/wordpress/2011/09/09/how-to-fix-grub-rescue-prompt-without-live-cd-for-grub2/, "How to Fix GRUB Rescue Prompt Without Live CD (For GRUB2)", 2016.</a> [Accessed: 30-Apr-2016].<br />
 </p>

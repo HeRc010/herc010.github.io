@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Publishing a Github-Based Rails App to Openshift - Bits and Bytes</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew L" />
+    <meta name="description" content="Publishing a Github-Based Rails App to Openshift" />
+    <meta name="keywords" content="Openshift, Rails, PostgreSQL, Ubuntu" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Bits and Bytes</a></h1>
+        <p>Notes from the deviant pursuits of a technical vagrant</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/adlawren">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="//www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="adlawren.github.io">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Publishing a Github-Based Rails App to Openshift</h1>
+
+<div id="outline-container-org1caf4cc" class="outline-2">
+<h2 id="org1caf4cc">Environment</h2>
+<div class="outline-text-2" id="text-org1caf4cc">
+<p>
+Ubuntu 16.04 (64 bit), rails 4.1.4 (deemed to be appropriate, given that the rails version used in the sample Openshift rails project [3] is 4.1.4.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org73d70da" class="outline-2">
+<h2 id="org73d70da">Process</h2>
+<div class="outline-text-2" id="text-org73d70da">
+<ol class="org-ol">
+<li>Create the Github repository<br /></li>
+<li>Clone the repository locally<br /></li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-sh">git clone [Github clone url]
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>Enter the root directory or the repository<br /></li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-sh">cd [Repository name]
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>Create a new rails project in the repository, poviding a name for the project<br /></li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-sh">rails _4.1.4_ new [Project name] --database=postgresql
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>Move the contents of the root directory of the newly created rails project to the root directory of the repository, then remove the root directory of the rails project<br /></li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-sh">mv [Project name]/* .
+rm -rf [Project name]
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>Create an Openshift 'Rails 4' application<br /></li>
+<li>In the locally cloned Github repository, add the Openshift repository as a remote repository<br /></li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-sh">git remote add openshift -f [Openshift clone url]
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>Remove files which cause subsequent merge complications<br /></li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-sh">rm config/secrets.yml
+rm -rf log/.keep
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>Merge the contents of the Openshift repository into the Github repository<br /></li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-sh">git merge openshift/master -s recursive -X ours
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>Replace the contents of the config/database.yml file with those found in the same file within the repository of the Openshift sample Rails 4 application [3], afterwards (at time of writing) the contents of the file should appear as follows<br /></li>
+</ol>
+
+<blockquote>
+<p>
+sqlite: &amp;sqlite<br />
+adapter: sqlite3<br />
+database: db/&lt;%= Rails.env %&gt;.sqlite3<br />
+</p>
+
+<p>
+mysql: &amp;mysql<br />
+adapter: mysql2<br />
+database: "&lt;%=ENV['OPENSHIFT_APP_NAME']%&gt;"<br />
+username: "&lt;%=ENV['OPENSHIFT_MYSQL_DB_USERNAME']%&gt;"<br />
+password: "&lt;%=ENV['OPENSHIFT_MYSQL_DB_PASSWORD']%&gt;"<br />
+host:     &lt;%=ENV['OPENSHIFT_MYSQL_DB_HOST']%&gt;<br />
+port:     &lt;%=ENV['OPENSHIFT_MYSQL_DB_PORT']%&gt;<br />
+</p>
+
+<p>
+postgresql: &amp;postgresql<br />
+adapter: postgresql<br />
+database: &lt;%=ENV['OPENSHIFT_APP_NAME']%&gt;<br />
+username: &lt;%=ENV['OPENSHIFT_POSTGRESQL_DB_USERNAME']%&gt;<br />
+password: &lt;%=ENV['OPENSHIFT_POSTGRESQL_DB_PASSWORD']%&gt;<br />
+host:     &lt;%=ENV['OPENSHIFT_POSTGRESQL_DB_HOST']%&gt;<br />
+port:     &lt;%=ENV['OPENSHIFT_POSTGRESQL_DB_PORT']%&gt;<br />
+min_messages: ERROR<br />
+reconnect: false<br />
+</p>
+
+<p>
+defaults: &amp;defaults<br />
+pool: 5<br />
+timeout: 5000<br />
+encoding: utf8<br />
+&lt;&lt;: *&lt;%= ENV['RAILS_DB'] || "sqlite" %&gt;<br />
+</p>
+
+<p>
+development:<br />
+&lt;&lt;: *defaults<br />
+</p>
+
+<p>
+test: &amp;test<br />
+&lt;&lt;: *defaults<br />
+</p>
+
+<p>
+production:<br />
+&lt;&lt;: *defaults<br />
+</p>
+</blockquote>
+
+<ol class="org-ol">
+<li>Publish application to Openshift by pushing the changes to the remote repository<br /></li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-sh">git push openshift HEAD
+</pre>
+</div>
+
+<p>
+A copy of the resulting source can be found [here](<a href="https://github.com/adlawren/Openshift-Rails-App-Test">https://github.com/adlawren/Openshift-Rails-App-Test</a>).<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcb2da31" class="outline-2">
+<h2 id="orgcb2da31">Sources</h2>
+<div class="outline-text-2" id="text-orgcb2da31">
+<p>
+[1] <a href="https://docs.openshift.org/latest/dev_guide/app_tutorials/ruby_on_rails.html">https://docs.openshift.org/latest/dev_guide/app_tutorials/ruby_on_rails.html, "Ruby on Rails", 2016.</a> [Accessed: 4-Sep-2016].<br />
+[2] <a href="http://stackoverflow.com/questions/12657168/can-i-use-my-existing-git-repo-with-openshift/12669112#12669112">http://stackoverflow.com/questions/12657168/can-i-use-my-existing-git-repo-with-openshift/12669112#12669112, "Can I use my existing git repo with openshift", 2016.</a> [Accessed: 4-Sep-2016].<br />
+[3] <a href="https://github.com/openshift/rails4-example">https://github.com/openshift/rails4-example, "rails4-example", 2016.</a> [Accessed: 4-Sep-2016].<br />
+[4] <a href="http://stackoverflow.com/questions/379141/specifying-rails-version-to-use-when-creating-a-new-application#452458">http://stackoverflow.com/questions/379141/specifying-rails-version-to-use-when-creating-a-new-application#452458, "Specifying rails version to use when creating a new application", 2016.</a> [Accessed: 4-Sep-2016].<br />
+</p>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2016-09-04</span>
+        <span title="last modification date" class="post-info">2018-05-05</span>
+        <span title="tags" class="post-info"><a href="/tags/openshift/">Openshift</a>, <a href="/tags/rails/">Rails</a>, <a href="/tags/postgresql/">PostgreSQL</a>, <a href="/tags/ubuntu/">Ubuntu</a></span>
+        <span title="author" class="post-info">Andrew L</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2016/09/04/publishing-a-github-based-rails-app-to-openshift";
+          var disqus_url = "http://adlawren.github.io/blog/2016/09/04/publishing-a-github-based-rails-app-to-openshift";
+          var disqus_shortname = 'adlawren';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="//disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="//code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 9.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:adlawren &lt;at&gt; onyx">Andrew L</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>
