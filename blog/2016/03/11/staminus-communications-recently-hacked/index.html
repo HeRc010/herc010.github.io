@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Staminus Communications Recently Hacked - Bits and Bytes</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew L" />
+    <meta name="description" content="Staminus Communications Recently Hacked" />
+    <meta name="keywords" content="Vulnerability, Exploit, Staminus Communications" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Bits and Bytes</a></h1>
+        <p>Notes from the deviant pursuits of a technical vagrant</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/adlawren">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="//www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="adlawren.github.io">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Staminus Communications Recently Hacked</h1>
+
+<div id="outline-container-orgd438a9d" class="outline-2">
+<h2 id="orgd438a9d">TL;DR</h2>
+<div class="outline-text-2" id="text-orgd438a9d">
+<p>
+Staminus Communications was recently compromised, resulting in the collapse of the company network and the leakage of large volumes of sensitive information, including credit card information [1].<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org94e8b40" class="outline-2">
+<h2 id="org94e8b40">Overview</h2>
+<div class="outline-text-2" id="text-org94e8b40">
+<p>
+Staminus Communications provides services which are intended to mitigate (or eliminate entirely) the effects of DDoS attacks. One such service provided by Staminus Communications is ‘Intreppid’ which provides virtual private servers, along with added features to facilitate DDoS protection.<br />
+</p>
+
+<p>
+An unknown hacker group subverted the server backbone of Staminus Communications and, after reverting the servers to factory settings, caused the collapse of Staminus’ network.<br />
+</p>
+
+<p>
+The contents of multiple databases (Staminus’ main database, the Intreppid database and the database of a Staminus’ client) were leaked using a Hastebin link, which contained Tor links to files stolen from the databases.<br />
+</p>
+
+<p>
+Additionally, the Hastebin link contained a satirical list of ‘Tips when Running a Security Company’ which disclosed potential vulnerabilities which were likely exploited during the attack [2], including but not limited to a shared root password used by the servers, exposed power distribution units on a telnet WAN and comprehensive credit card information being stored in plaintext.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb6d323e" class="outline-2">
+<h2 id="orgb6d323e">Sources</h2>
+<div class="outline-text-2" id="text-orgb6d323e">
+<p>
+[1] <a href="http://news.softpedia.com/news/hackers-breach-ddos-protection-firm-staminus-501625.shtml">news.softpedia.com, "Hackers Breach DDoS Protection Firm Staminus", 2016.</a> [Accessed: 11-Mar-2016].<br />
+[2] <a href="http://news.softpedia.com/news/hackers-breach-ddos-protection-firm-staminus-501625.shtml">reddit.com, "Staminus Communications and KKK.com Hacked in Major Security Breach", 2016.</a> [Accessed: 11-Mar-2016].<br />
+</p>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2016-03-11</span>
+        <span title="last modification date" class="post-info">2018-05-05</span>
+        <span title="tags" class="post-info"><a href="/tags/vulnerability/">Vulnerability</a>, <a href="/tags/exploit/">Exploit</a></span>
+        <span title="author" class="post-info">Andrew L</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2016/03/11/staminus-communications-recently-hacked";
+          var disqus_url = "http://adlawren.github.io/blog/2016/03/11/staminus-communications-recently-hacked";
+          var disqus_shortname = 'adlawren';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="//disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="//code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 9.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:adlawren &lt;at&gt; onyx">Andrew L</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>
