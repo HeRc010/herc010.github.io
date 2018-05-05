@@ -2,7 +2,7 @@
 #+AUTHOR:      Andrew L
 #+EMAIL:       adlawren@onyx
 #+DATE:        2016-02-27 Sat
-#+URI:         /blog/2016/2/27/mozilla-permits-the-use-of-multiple-sha-1-certificates
+#+URI:         /blog/2016/02/27/mozilla-permits-the-use-of-multiple-sha-1-certificates
 #+KEYWORDS:    Vulnerability, Exploit, Encryption, SHA-1
 #+TAGS:        Vulnerability, Exploit, Encryption
 #+LANGUAGE:    en
