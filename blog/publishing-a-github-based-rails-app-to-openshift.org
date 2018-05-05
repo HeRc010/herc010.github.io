@@ -1,0 +1,120 @@
+#+TITLE:       Publishing a Github-Based Rails App to Openshift
+#+AUTHOR:      Andrew L
+#+EMAIL:       adlawren@onyx
+#+DATE:        2016-09-04 Sun
+#+URI:         /blog/2016/09/04/publishing-a-github-based-rails-app-to-openshift
+#+KEYWORDS:    Openshift, Rails, PostgreSQL, Ubuntu
+#+TAGS:        Openshift, Rails, PostgreSQL, Ubuntu
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Publishing a Github-Based Rails App to Openshift
+
+#+OPTIONS: \n:t
+
+* Environment
+
+Ubuntu 16.04 (64 bit), rails 4.1.4 (deemed to be appropriate, given that the rails version used in the sample Openshift rails project [3] is 4.1.4.
+
+* Process
+
+1. Create the Github repository
+2. Clone the repository locally
+
+#+BEGIN_SRC sh
+git clone [Github clone url]
+#+END_SRC
+
+3. Enter the root directory or the repository
+
+#+BEGIN_SRC sh
+cd [Repository name]
+#+END_SRC
+
+4. Create a new rails project in the repository, poviding a name for the project
+
+#+BEGIN_SRC sh
+rails _4.1.4_ new [Project name] --database=postgresql
+#+END_SRC
+
+5. Move the contents of the root directory of the newly created rails project to the root directory of the repository, then remove the root directory of the rails project
+
+#+BEGIN_SRC sh
+mv [Project name]/* .
+rm -rf [Project name]
+#+END_SRC
+
+6. Create an Openshift 'Rails 4' application
+7. In the locally cloned Github repository, add the Openshift repository as a remote repository
+
+#+BEGIN_SRC sh
+git remote add openshift -f [Openshift clone url]
+#+END_SRC
+
+8. Remove files which cause subsequent merge complications
+
+#+BEGIN_SRC sh
+rm config/secrets.yml
+rm -rf log/.keep
+#+END_SRC
+
+9. Merge the contents of the Openshift repository into the Github repository
+
+#+BEGIN_SRC sh
+git merge openshift/master -s recursive -X ours
+#+END_SRC
+
+10. Replace the contents of the config/database.yml file with those found in the same file within the repository of the Openshift sample Rails 4 application [3], afterwards (at time of writing) the contents of the file should appear as follows
+
+#+BEGIN_QUOTE
+sqlite: &sqlite
+adapter: sqlite3
+database: db/<%= Rails.env %>.sqlite3
+
+mysql: &mysql
+adapter: mysql2
+database: "<%=ENV['OPENSHIFT_APP_NAME']%>"
+username: "<%=ENV['OPENSHIFT_MYSQL_DB_USERNAME']%>"
+password: "<%=ENV['OPENSHIFT_MYSQL_DB_PASSWORD']%>"
+host:     <%=ENV['OPENSHIFT_MYSQL_DB_HOST']%>
+port:     <%=ENV['OPENSHIFT_MYSQL_DB_PORT']%>
+
+postgresql: &postgresql
+adapter: postgresql
+database: <%=ENV['OPENSHIFT_APP_NAME']%>
+username: <%=ENV['OPENSHIFT_POSTGRESQL_DB_USERNAME']%>
+password: <%=ENV['OPENSHIFT_POSTGRESQL_DB_PASSWORD']%>
+host:     <%=ENV['OPENSHIFT_POSTGRESQL_DB_HOST']%>
+port:     <%=ENV['OPENSHIFT_POSTGRESQL_DB_PORT']%>
+min_messages: ERROR
+reconnect: false
+
+defaults: &defaults
+pool: 5
+timeout: 5000
+encoding: utf8
+<<: *<%= ENV['RAILS_DB'] || "sqlite" %>
+
+development:
+<<: *defaults
+
+test: &test
+<<: *defaults
+
+production:
+<<: *defaults
+#+END_QUOTE
+
+11. Publish application to Openshift by pushing the changes to the remote repository
+
+#+BEGIN_SRC sh
+git push openshift HEAD
+#+END_SRC
+
+A copy of the resulting source can be found [here](https://github.com/adlawren/Openshift-Rails-App-Test).
+
+* Sources
+
+[1] [[https://docs.openshift.org/latest/dev_guide/app_tutorials/ruby_on_rails.html][https://docs.openshift.org/latest/dev_guide/app_tutorials/ruby_on_rails.html, "Ruby on Rails", 2016.]] [Accessed: 4-Sep-2016].
+[2] [[http://stackoverflow.com/questions/12657168/can-i-use-my-existing-git-repo-with-openshift/12669112#12669112][http://stackoverflow.com/questions/12657168/can-i-use-my-existing-git-repo-with-openshift/12669112#12669112, "Can I use my existing git repo with openshift", 2016.]] [Accessed: 4-Sep-2016].
+[3] [[https://github.com/openshift/rails4-example][https://github.com/openshift/rails4-example, "rails4-example", 2016.]] [Accessed: 4-Sep-2016].
+[4] [[http://stackoverflow.com/questions/379141/specifying-rails-version-to-use-when-creating-a-new-application#452458][http://stackoverflow.com/questions/379141/specifying-rails-version-to-use-when-creating-a-new-application#452458, "Specifying rails version to use when creating a new application", 2016.]] [Accessed: 4-Sep-2016].
