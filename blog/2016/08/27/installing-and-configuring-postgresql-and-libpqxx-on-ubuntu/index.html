@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Installing And Configuring PostgreSQL And Libpqxx On Ubuntu - Bits and Bytes</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew L" />
+    <meta name="description" content="Installing And Configuring PostgreSQL And Libpqxx On Ubuntu" />
+    <meta name="keywords" content="PostgreSQL, Libpqxx, C++, Connector, Ubuntu" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Bits and Bytes</a></h1>
+        <p>Notes from the deviant pursuits of a technical vagrant</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/adlawren">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="//www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="adlawren.github.io">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Installing And Configuring PostgreSQL And Libpqxx On Ubuntu</h1>
+
+<div id="outline-container-org9d76e68" class="outline-2">
+<h2 id="org9d76e68">Installation</h2>
+<div class="outline-text-2" id="text-org9d76e68">
+<p>
+To install the packages needed (including the postgres server [1], client and libpqxx), enter the following at a prompt:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">sudo apt-get install postgresql postgresql-contrib libpqxx-4.0 libpq-dev libpqxx-dev
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0d553c1" class="outline-2">
+<h2 id="org0d553c1">Database Configuration</h2>
+<div class="outline-text-2" id="text-org0d553c1">
+<p>
+This process was found on the Ubuntu Documentation site [2].<br />
+</p>
+
+<p>
+Edit the  /etc/postgresql/9.5/main/postgresql.conf file, changing:<br />
+</p>
+
+<blockquote>
+<p>
+#listen_addresses = 'localhost'<br />
+</p>
+</blockquote>
+
+<p>
+to:<br />
+</p>
+
+<p>
+```<br />
+listen_addresses = '*'<br />
+```<br />
+</p>
+
+<p>
+Next, change the psql password of the 'postgres' user, entering the following at a prompt:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">sudo -u postgres psql template1  
+template1=# ALTER USER postgres with encrypted password 'your_password';
+</pre>
+</div>
+
+<p>
+Next, edit the /etc/postgresql/9.1/main/pg_hba.conf file, changing:<br />
+</p>
+
+<p>
+```<br />
+local   all         postgres                          peer<br />
+```<br />
+</p>
+
+<p>
+to:<br />
+</p>
+
+<p>
+```<br />
+local   all         postgres                          md5<br />
+```<br />
+</p>
+
+<p>
+Next, restart the PostreSQL service, entering the following at a prompt:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">sudo systemctl restart postgresql.service
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org958b937" class="outline-2">
+<h2 id="org958b937">Creating a Database for Testing</h2>
+<div class="outline-text-2" id="text-org958b937">
+<p>
+Enter the following command at a prompt, afterwards providing the password for the postgres user configured earlier, to create a new database called 'db_test':<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">sudo -u postgres psql db_test
+</pre>
+</div>
+
+<p>
+Here I create a new table containing the ids, names and populations of provinces, with a single row:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">create table provinces (id INT, name VARCHAR(20), population INT);  
+insert into provinces (id, name, population) values (1, 'alberta', 24);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb80c367" class="outline-2">
+<h2 id="orgb80c367">Connector Application Source Code</h2>
+<div class="outline-text-2" id="text-orgb80c367">
+<p>
+An example of interaction with the afore created database using libpqxx is shown below, implemented within a main.cpp file. The implementation was conducted referencing source found on the libpqxx site [3] (under the 'Example' section). To successfully run the sample, manually replace 'PASSWORD' with the password given to the postgres user configured above:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;cassert&gt;
+
+#include &lt;pqxx/pqxx&gt;
+
+int main()
+{
+  pqxx::connection c("dbname=db_test user=postgres password=PASSWORD");
+
+  c.prepare("create",
+    "INSERT INTO provinces (id, name, population) \
+    VALUES ($1, $2, $3)");
+  c.prepare("read_by_id",
+    "SELECT * FROM provinces WHERE id = $1");
+  c.prepare("read_by_name",
+    "SELECT * FROM provinces WHERE name = $1");
+  c.prepare("update_by_id",
+    "UPDATE provinces SET population = population + 1 \
+    WHERE id = $1");
+  c.prepare("delete_by_id",
+    "DELETE FROM provinces WHERE id = $1");
+
+  {
+    pqxx::work txn(c);
+    pqxx::result res;
+
+    int test_id = 9999;
+    std::string test_name = "test name";
+    int test_population = 50;
+
+    // --- Create ---
+    {
+      txn.prepared("create")(test_id)(test_name)(test_population)
+        .exec();
+
+      res = txn.prepared("read_by_id")(test_id).exec();
+
+      if (res.size() == 0)
+      {
+        std::cerr &lt;&lt;
+          "No records with name " &lt;&lt; test_name &lt;&lt; ", were found." &lt;&lt;
+        std::endl;
+
+        return -1;
+      }
+
+      int province_id = res[0][0].as&lt;int&gt;();
+      assert(province_id == test_id);
+
+      std::string province_name = res[0][1].as&lt;std::string&gt;();
+      assert(province_name.compare(test_name) == 0);
+
+      int province_population = res[0][2].as&lt;int&gt;();
+      assert(province_population == test_population);
+
+      std::cout &lt;&lt; "Province #" &lt;&lt; province_id &lt;&lt;
+        ", has name: " &lt;&lt; province_name &lt;&lt;
+        ", and population: " &lt;&lt; province_population &lt;&lt; std::endl;
+    }
+
+    // --- Update ---
+    {
+      std::cout &lt;&lt; "Updating province with id: " &lt;&lt; test_id &lt;&lt;
+      std::endl;
+
+      txn.prepared("update_by_id")(test_id).exec();
+
+      res = txn.prepared("read_by_id")(test_id).exec();
+
+      int province_population = res[0][2].as&lt;int&gt;();
+      assert(province_population == test_population + 1);
+    }
+
+    // --- Delete ---
+    {
+      txn.prepared("delete_by_id")(test_id).exec();
+
+      res = txn.prepared("read_by_id")(test_id).exec();
+      assert(res.size() == 0);
+    }
+
+    txn.commit();
+  }
+}
+</pre>
+</div>
+
+<p>
+Compilation may be accomplished by invoking the following at a prompt:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">g++ main.cpp -lpqxx -lpq
+</pre>
+</div>
+
+<p>
+A copy of the source is available <a href="https://github.com/adlawren/PostgreSQL-Cpp-API-Test">here</a>.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org143ed7a" class="outline-2">
+<h2 id="org143ed7a">Sources</h2>
+<div class="outline-text-2" id="text-org143ed7a">
+<p>
+[1] <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-12-04">https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-12-04, "How To Install and Use PostgreSQL on Ubuntu 12.04", 2016.</a> [Accessed: 27-Aug-2016].<br />
+[2] <a href="https://help.ubuntu.com/stable/serverguide/postgresql.html">https://help.ubuntu.com/stable/serverguide/postgresql.html, "PostgreSQL", 2016.</a> [Accessed: 27-Aug-2016].<br />
+[3] <a href="http://pqxx.org/development/libpqxx/wiki">http://pqxx.org/development/libpqxx/wiki, "C++ connector for PostgreSQL", 2016.</a> [Accessed: 27-Aug-2016].<br />
+</p>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2016-08-27</span>
+        <span title="last modification date" class="post-info">2018-05-05</span>
+        <span title="tags" class="post-info"><a href="/tags/postgresql/">PostgreSQL</a>, <a href="/tags/libpqxx/">Libpqxx</a>, <a href="/tags/c++/">C++</a>, <a href="/tags/connector/">Connector</a>, <a href="/tags/ubuntu/">Ubuntu</a></span>
+        <span title="author" class="post-info">Andrew L</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2016/08/27/installing-and-configuring-postgresql-and-libpqxx-on-ubuntu";
+          var disqus_url = "http://adlawren.github.io/blog/2016/08/27/installing-and-configuring-postgresql-and-libpqxx-on-ubuntu";
+          var disqus_shortname = 'adlawren';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="//disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="//code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 9.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:adlawren &lt;at&gt; onyx">Andrew L</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>
