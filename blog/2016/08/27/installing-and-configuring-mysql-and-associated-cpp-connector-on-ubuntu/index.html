@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Installing And Configuring MySQL And Associated Cpp Connector On Ubuntu - Bits and Bytes</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew L" />
+    <meta name="description" content="Installing And Configuring MySQL And Associated Cpp Connector On Ubuntu" />
+    <meta name="keywords" content="MySQL, C++, Connector, Ubuntu" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Bits and Bytes</a></h1>
+        <p>Notes from the deviant pursuits of a technical vagrant</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/adlawren">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="//www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="adlawren.github.io">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Installing And Configuring MySQL And Associated Cpp Connector On Ubuntu</h1>
+
+<div id="outline-container-org69831bf" class="outline-2">
+<h2 id="org69831bf">Installation</h2>
+<div class="outline-text-2" id="text-org69831bf">
+<p>
+To install the needed packages, enter the following at a prompt:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">sudo apt-get install mysql-server libmysqlcppconn-dev mysql-client libmysqlclient-dev
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd7bf931" class="outline-2">
+<h2 id="orgd7bf931">Creating a Database for Testing</h2>
+<div class="outline-text-2" id="text-orgd7bf931">
+<p>
+Access the server, typing the following at a prompt, providing the required password afterwards:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">mysql -u root -p
+</pre>
+</div>
+
+<p>
+Here I create a new table containing the ids, names and populations of provinces, with a few rows:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">mysql&gt;create DATABASE provinces;
+mysql&gt;SHOW DATABASES;
+mysql&gt;USE provinces;
+mysql&gt;CREATE TABLE provinces (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, province CHAR(25), population INT(9));
+mysql&gt;INSERT INTO provinces (id, province, population) VALUES (NULL, 'Alberta', '4000');
+mysql&gt;INSERT INTO provinces (id, province, population) VALUES (NULL, 'British Columbia', '9001'), (NULL, 'Ontario', '12'), (NULL, 'Prince Edward Island', '-4');
+mysql&gt;SELECT * FROM provinces;
+mysql&gt;SELECT province, population FROM provinces ORDER BY population;
+mysql&gt;SELECT province, population FROM provinces ORDER BY population DESC;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org03e2fd4" class="outline-2">
+<h2 id="org03e2fd4">Connector Application Source Code</h2>
+<div class="outline-text-2" id="text-org03e2fd4">
+<p>
+An example of interaction with the afore created database using the MySQL C++ connector API is shown below, implemented within a main.cpp file. The implementation was conducted referencing source found on the MySQL developer site [1]. To successfully run the sample, manually replace 'PASSWORD' with the appropriate password:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++">#include &lt;iostream&gt;
+#include &lt;stdexcept&gt;
+
+#include &lt;cppconn/driver.h&gt;
+#include &lt;cppconn/connection.h&gt;
+#include &lt;cppconn/statement.h&gt;
+#include &lt;cppconn/resultset.h&gt;
+#include &lt;cppconn/prepared_statement.h&gt;
+
+static const std::string url = "tcp://127.0.0.1:3306";
+static const std::string user = "root";
+static const std::string password = "PASSWORD";
+
+int main(int argc, char* argv[])
+{
+  sql::Driver *driver;
+  sql::Connection *conn;
+  sql::Statement *stmt;
+  sql::ResultSet *rs;
+  sql::PreparedStatement *prep_stmt;
+
+  try
+  {
+    driver = get_driver_instance();
+
+    conn = driver-&gt;connect(url, user, password);
+
+    conn-&gt;setSchema("provinces");
+
+    // Statement example
+    stmt = conn-&gt;createStatement();
+
+    rs = stmt-&gt;executeQuery("SELECT * FROM provinces");
+
+    std::cout &lt;&lt; "Retreived row count: " &lt;&lt; rs-&gt;rowsCount() &lt;&lt; std::endl;
+
+    for (size_t i = 0; i &lt; rs-&gt;rowsCount(); ++i) {
+      rs-&gt;next();
+      std::cout &lt;&lt; "Next string: " &lt;&lt;  rs-&gt;getString("province") &lt;&lt;  std::endl;
+    }
+
+    // Prepared statement example
+    prep_stmt = conn-&gt;prepareStatement("INSERT INTO provinces (province, population) VALUES (?, ?)");
+
+    prep_stmt-&gt;setString(1, "test province");
+    prep_stmt-&gt;setString(2, "3");
+
+    int update_count = prep_stmt-&gt;executeUpdate();
+
+    std::cout &lt;&lt; "Updated row count: " &lt;&lt; update_count &lt;&lt; std::endl;
+
+    delete rs;
+    delete stmt;
+    delete prep_stmt;
+    conn-&gt;close();
+    delete conn;
+  }
+  catch (sql::SQLException &amp;e)
+  {
+    std::cout &lt;&lt; "Error during processing.." &lt;&lt; std::endl;
+  }
+
+  return 0;
+}
+</pre>
+</div>
+
+<p>
+Compilation may be accomplished by invoking the following at a prompt:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">g++ -std=c++0x -o test.out main.cpp -lmysqlcppconn
+</pre>
+</div>
+
+<p>
+A copy of the source is available <a href="https://github.com/adlawren/MySQL-Cpp-Connector-Test">here</a>.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfa281d3" class="outline-2">
+<h2 id="orgfa281d3">Sources</h2>
+<div class="outline-text-2" id="text-orgfa281d3">
+<p>
+[1] <a href="https://dev.mysql.com/tech-resources/articles/mysql-connector-cpp.html">https://dev.mysql.com/tech-resources/articles/mysql-connector-cpp.html, "Developing Database Applications Using MySQL Connector/C++", 2016.</a> [Accessed: 27-Aug-2016].<br />
+</p>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2016-08-27</span>
+        <span title="last modification date" class="post-info">2018-05-05</span>
+        <span title="tags" class="post-info"><a href="/tags/mysql/">MySQL</a>, <a href="/tags/c++/">C++</a>, <a href="/tags/connector/">Connector</a>, <a href="/tags/ubuntu/">Ubuntu</a></span>
+        <span title="author" class="post-info">Andrew L</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2016/08/27/installing-and-configuring-mysql-and-associated-cpp-connector-on-ubuntu";
+          var disqus_url = "http://adlawren.github.io/blog/2016/08/27/installing-and-configuring-mysql-and-associated-cpp-connector-on-ubuntu";
+          var disqus_shortname = 'adlawren';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="//disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="//code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 9.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:adlawren &lt;at&gt; onyx">Andrew L</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>
