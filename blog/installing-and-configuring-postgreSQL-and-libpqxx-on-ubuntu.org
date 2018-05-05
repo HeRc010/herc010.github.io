@@ -31,9 +31,9 @@ Edit the  /etc/postgresql/9.5/main/postgresql.conf file, changing:
 
 to:
 
-```
+#+BEGIN_QUOTE
 listen_addresses = '*'
-```
+#+END_QUOTE
 
 Next, change the psql password of the 'postgres' user, entering the following at a prompt:
 
@@ -44,15 +44,15 @@ template1=# ALTER USER postgres with encrypted password 'your_password';
 
 Next, edit the /etc/postgresql/9.1/main/pg_hba.conf file, changing:
 
-```
+#+BEGIN_QUOTE
 local   all         postgres                          peer
-```
+#+END_QUOTE
 
 to:
 
-```
+#+BEGIN_QUOTE
 local   all         postgres                          md5
-```
+#+END_QUOTE
 
 Next, restart the PostreSQL service, entering the following at a prompt:
 
