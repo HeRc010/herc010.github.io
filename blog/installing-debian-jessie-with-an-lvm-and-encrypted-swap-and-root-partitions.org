@@ -1,0 +1,233 @@
+#+TITLE:       Installing Debian Jessie with an LVM and Encrypted Swap and Root Partitions
+#+AUTHOR:      Andrew L
+#+EMAIL:       adlawren@onyx
+#+DATE:        2016-08-07 Sun
+#+URI:         /blog/2016/08/07/installing-debian-jessie-with-an-lvm-and-encrypted-swap-and-root-partitions
+#+KEYWORDS:    Encryption, Debian, Disk Encryption, LVM
+#+TAGS:        Encryption, Debian, Disk Encryption, LVM
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Installing Debian Jessie with an LVM and Encrypted Swap and Root Partitions
+
+#+OPTIONS: \n:t
+
+* Disclaimer
+
+I accept no responsibility for any damage which results from the application (in whole or in part, properly or poorly, explicitly or implicitly) of the approach to disk encryption described below. Ultimately it is your responsibility to ensure that your computer systems are properly configured and secured. Proceed at your own risk.
+
+* Overview
+
+The intent of this guide is to provide some direction when installing Debian with encrypted swap and root partitions, without using the default option provided by the installer for the installation of an encrypted LVM, which requires the entirety of the available disk to be used, and overwritten by extension.
+
+The approach described below involves manually creating 2 physical partitions, one unencrypted 'boot' partition and one encrypted 'main' partition, with '/boot' and '/' mount points respectively. The 'main' partition is used to form the swap and root logical partitions in the subsequently created LVM.
+
+* Assumptions
+
+Some free space is available for the installation prior to running the installer, there are other guides which describe how to allocate this space.
+
+* Note
+
+I'm using a VM in the illustrations, however the approach on a physical system should be predominantly indifferent.
+
+* Procedure
+
+Upon reaching the 'Partition Disks' screen of the installer, select the 'manual' option:
+
+http://i.imgur.com/r1VsnMn.png
+
+Select the device you'd like to use for the installation:
+
+http://i.imgur.com/usrke1i.png
+
+Select yes within the subsequent prompt:
+
+http://i.imgur.com/9aFGSuU.png
+
+Upon returning to the partition overview, select the free space you've allocated for the installation:
+
+http://i.imgur.com/ChsQDwe.png
+
+Select 'Create a new partition':
+
+http://i.imgur.com/amGFOEg.png
+
+Enter a partition size of '0.1 GB', the recommended size of a boot partition [1], and select continue:
+
+http://i.imgur.com/bm1EteT.png
+
+Select 'primary' for the partition type:
+
+http://i.imgur.com/PDlPwiS.png
+
+Select 'Beginning' for the partition location:
+
+http://i.imgur.com/fb7xscJ.png
+
+Enter the settings show below, selecting '/boot' for the mount point of the partition, then select 'Done setting up the partition':
+
+http://i.imgur.com/cbCuSMQ.png
+
+Upon returning to the partition overview, select the remainder of the free space:
+
+http://i.imgur.com/1QPcNHQ.png
+
+Select 'Create a new partition':
+
+http://i.imgur.com/iuCFlrs.png
+
+For the size of the 'main' partition, enter the sum of the desired sizes of the swap and root partitions (in this example, a 0.5 GB swap partition with a 8 GB root partition is desired, thus 8.5 GB is entered for the partition size), and select 'Continue':
+
+http://i.imgur.com/FfhvdJF.png
+
+Select 'primary' for the partition type:
+
+http://i.imgur.com/83KHDXM.png
+
+Select 'Beginning' for the partition location:
+
+http://i.imgur.com/fb7xscJ.png
+
+Enter the settings show below, selecting '/' for the mount point of the partition, then select 'Done setting up the partition':
+
+http://i.imgur.com/eSHvIJF.png
+
+Upon returning to the partition overview, select 'Configure encrypted volumes':
+
+http://i.imgur.com/kc1jhMB.png
+
+When prompted to write changes to the disk, select 'Yes':
+
+http://i.imgur.com/sebD0jr.png
+
+Select 'Create encrypted volumes':
+
+http://i.imgur.com/GQwDED6.png
+
+When prompted to choose the partition (s) to be encrypted, select the 'main' (root) partition allocated earlier by hovering over the option and pressing space, subsequently selecting continue:
+
+http://i.imgur.com/ga4Gjcn.png
+
+When configuring the encrypted partition, the default options are deemed sensible, however it is the responsibility of the reader to ensure that the encryption settings suit their needs (see disclaimer at the top of this post), once the acceptability of the configuration has been verified, select 'Done setting up the partition':
+
+http://i.imgur.com/imXTkMg.png
+
+Select 'Finish':
+
+http://i.imgur.com/y9jFaHS.png
+
+When warned that the data in the partition will be erased as a result of the encryption, select 'Yes':
+
+http://i.imgur.com/xp3dhcl.png
+
+When prompted for an encryption passphrase, enter a strong phrase of your choosing (tips for creating strong passphrases available here [3]). Ensure that you <b>DO NOT FORGET/LOSE THIS PASSPHRASE</b>:
+
+http://i.imgur.com/KZlZc4z.png
+
+When prompted, re-enter your chosen passphrase:
+
+http://i.imgur.com/IiGkcvz.png
+
+Upon returning to the partition overview, select 'Configure the Logical Volume Manager':
+
+http://i.imgur.com/8dfEQzz.png
+
+When prompted to write changes to the disk, select 'Yes':
+
+http://i.imgur.com/5gcRUIh.png
+
+At the LVM configuration summary, select 'Create volume group':
+
+http://i.imgur.com/3JbFcOy.png
+
+Enter a name for the volume group and select 'Continue':
+
+http://i.imgur.com/11oTciq.png
+
+Exclusively select the encrypted partition created earlier to comprise the volume group, by hovering over the option and pressing space, before selecting 'Continue':
+
+http://i.imgur.com/ZjtaGf8.png
+
+Upon returning to the LVM configuration summary, select 'Create logical volume':
+
+http://i.imgur.com/ttnGrOL.png
+
+Select the volume group created earlier:
+
+http://i.imgur.com/yuU7zbK.png
+
+Enter a name for the logical volume, intended to be used for the swap partition, before selecting 'Continue':
+
+http://i.imgur.com/2w1IkLy.png
+
+Enter the desired size of the swap partition, and select 'Continue':
+
+http://i.imgur.com/K7O53QX.png
+
+Upon returning to the LVM configuration summary, select 'Create logical volume':
+
+http://i.imgur.com/L6PgPHM.png
+
+Select the volume group created earlier:
+
+http://i.imgur.com/rFb4S8Y.png
+
+Enter a name for the logical volume, intended to be used for the root partition, before selecting 'Continue':
+
+http://i.imgur.com/ueUoGBg.png
+
+Select 'Continue' to automatically use the remainder of the available space in the root partition:
+
+http://i.imgur.com/Ro3lJQy.png
+
+Upon returning to the LVM configuration summary, select 'Finish':
+
+http://i.imgur.com/4G01fYu.png
+
+Upon returning to the partition overview, select the logical swap partition created earlier:
+
+http://i.imgur.com/KDbMZnI.png
+
+Select the 'Use as' field:
+
+http://i.imgur.com/ZUlOMLQ.png
+
+Select the 'swap area' option:
+
+http://i.imgur.com/EpYUM41.png
+
+Select 'Done setting up the partition':
+
+http://i.imgur.com/al8nZfv.png
+
+Upon returning to the partition overview, select the logical root partition created earlier:
+
+http://i.imgur.com/omfGxNX.png
+
+Select the 'Use as' field:
+
+http://i.imgur.com/KSvyWIl.png
+
+Select the 'Ext4 journaling file system' option:
+
+http://i.imgur.com/3TueYKE.png
+
+Enter the settings show below, selecting '/' for the mount point of the partition, and subsequently selecting 'Done setting up the partition':
+
+http://i.imgur.com/YzsKEGl.png
+
+Upon returning to the partition overview, select 'Finish partitioning and write changes to disk':
+
+http://i.imgur.com/cqZjigD.png
+
+When prompted to write changes to the disk, select 'Yes':
+
+http://i.imgur.com/F3teHdc.png
+
+Upon completing the remainder of the installation process, and rebooting into the Debian installation, in order to reach the login screen, enter the chosen passphrase upon reaching the prompt:
+
+http://i.imgur.com/9LqpwbB.png
+
+* Sources
+
+[1] [[http://serverfault.com/questions/334663/what-is-the-recommended-size-for-a-linux-boot-partition][http://serverfault.com/questions/334663/what-is-the-recommended-size-for-a-linux-boot-partition, "What is the recommended size for a Linux /boot partition?", 2016.]] [Accessed: 7-Aug-2016].
+[2] [[https://strongpasswordgenerator.com/][https://strongpasswordgenerator.com/, "Strong Password Generator", 2016.]] [Accessed: 7-Aug-2016].
