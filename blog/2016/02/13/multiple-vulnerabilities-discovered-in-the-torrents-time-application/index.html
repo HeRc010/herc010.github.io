@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Multiple Vulnerabilities Discovered in the Torrents Time Application - Bits and Bytes</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew L" />
+    <meta name="description" content="Multiple Vulnerabilities Discovered in the Torrents Time Application" />
+    <meta name="keywords" content="Vulnerability, Exploit, Torrents Time" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Bits and Bytes</a></h1>
+        <p>Notes from the deviant pursuits of a technical vagrant</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/adlawren">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="//www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="adlawren.github.io">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Multiple Vulnerabilities Discovered in the Torrents Time Application</h1>
+
+<div id="outline-container-orgaf082e7" class="outline-2">
+<h2 id="orgaf082e7">TL;DR</h2>
+<div class="outline-text-2" id="text-orgaf082e7">
+<p>
+A significant number of vulnerabilities in the Torents Time application were recently discovered [1].<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org85d5495" class="outline-2">
+<h2 id="org85d5495">Overview</h2>
+<div class="outline-text-2" id="text-org85d5495">
+<p>
+Torrents Time (hereafter abbreviated as TT) is an application which facilitates the ‘instant’ download and streaming of torrented material within a browser, as an alternative to downloading the torrent using a local torrent client. TT is currently experiencing widespread use after adoption by multiple popular torrenting websites, including The Pirate Bay, as a streaming feature [2].<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd73198e" class="outline-2">
+<h2 id="orgd73198e">Installation Details</h2>
+<div class="outline-text-2" id="text-orgd73198e">
+<p>
+Users of TT are required to download an installer, which deploys a local node.js server and installs a browser plugin.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfbdc28a" class="outline-2">
+<h2 id="orgfbdc28a">CORS Abuse</h2>
+<div class="outline-text-2" id="text-orgfbdc28a">
+<p>
+TT is subject to MITM attacks due to the improper implementation of CORS requests. As a result, a web page which mimics the web page being accessed by a user may be fabricated by an attacker with an additional script in the HTML head tag. The attacker may subsequently make use of the functionality loaded in the TT scripts. Possible malicious activities include:<br />
+</p>
+
+<p>
+Issuing a torrent which was not originally requested by the user<br />
+Introducing malicious code into the downloaded content<br />
+Acquisition of information by those interested (advertisers for example) which can be used to track users online<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org346d910" class="outline-2">
+<h2 id="org346d910">Root Access on Mac OS X</h2>
+<div class="outline-text-2" id="text-org346d910">
+<p>
+The OS X TT client runs with root access, rendering Apple users immensely vulnerable to a wide range of malicious activities.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgae65ee2" class="outline-2">
+<h2 id="orgae65ee2">Browser Plugin Installer Download</h2>
+<div class="outline-text-2" id="text-orgae65ee2">
+<p>
+The plugin installer may be programmatically re-downloaded, however after minor changes an alternate executable may be downloaded instead, affording an attacker the opportunity for any number of malicious activities, including but not limited to the installation of malware.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf22ad96" class="outline-2">
+<h2 id="orgf22ad96">Sources</h2>
+<div class="outline-text-2" id="text-orgf22ad96">
+<p>
+[1] <a href="http://blog.andrew.im/post/139084882590/torrents-time-security-issues">blog.andrew.im, "Torrents-time Security Issues", 2016.</a> [Accessed: 13-Feb-2016].<br />
+[2] <a href="http://news.softpedia.com/news/torrents-time-plugin-plagued-by-security-issues-pirate-bay-kat-users-at-risk-500334.shtml">news.softpedia.com, "Torrents Time Plugin Plagued by Security Issues, Pirate Bay &amp; KAT Users at Risk", 2016.</a> [Accessed: 13-Feb-2016].<br />
+</p>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2016-02-13</span>
+        <span title="last modification date" class="post-info">2018-05-05</span>
+        <span title="tags" class="post-info"><a href="/tags/vulnerability/">Vulnerability</a>, <a href="/tags/exploit/">Exploit</a></span>
+        <span title="author" class="post-info">Andrew L</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2016/02/13/multiple-vulnerabilities-discovered-in-the-torrents-time-application";
+          var disqus_url = "http://adlawren.github.io/blog/2016/02/13/multiple-vulnerabilities-discovered-in-the-torrents-time-application";
+          var disqus_shortname = 'adlawren';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="//disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="//code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 9.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:adlawren &lt;at&gt; onyx">Andrew L</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>
