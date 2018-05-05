@@ -1,0 +1,182 @@
+#+TITLE:       Installing And Configuring PostgreSQL And Libpqxx On Ubuntu
+#+AUTHOR:      Andrew L
+#+EMAIL:       adlawren@onyx
+#+DATE:        2016-08-27 Sat
+#+URI:         /blog/2016/08/27/installing-and-configuring-postgresql-and-libpqxx-on-ubuntu
+#+KEYWORDS:    PostgreSQL, Libpqxx, C++, Connector, Ubuntu
+#+TAGS:        PostgreSQL, Libpqxx, C++, Connector, Ubuntu
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Installing And Configuring PostgreSQL And Libpqxx On Ubuntu
+
+#+OPTIONS: \n:t
+
+* Installation
+
+To install the packages needed (including the postgres server [1], client and libpqxx), enter the following at a prompt:
+
+#+BEGIN_SRC sh
+sudo apt-get install postgresql postgresql-contrib libpqxx-4.0 libpq-dev libpqxx-dev
+#+END_SRC
+
+* Database Configuration
+
+This process was found on the Ubuntu Documentation site [2].
+
+Edit the  /etc/postgresql/9.5/main/postgresql.conf file, changing:
+
+#+BEGIN_QUOTE
+#listen_addresses = 'localhost'
+#+END_QUOTE
+
+to:
+
+```
+listen_addresses = '*'
+```
+
+Next, change the psql password of the 'postgres' user, entering the following at a prompt:
+
+#+BEGIN_SRC sh
+sudo -u postgres psql template1  
+template1=# ALTER USER postgres with encrypted password 'your_password';
+#+END_SRC
+
+Next, edit the /etc/postgresql/9.1/main/pg_hba.conf file, changing:
+
+```
+local   all         postgres                          peer
+```
+
+to:
+
+```
+local   all         postgres                          md5
+```
+
+Next, restart the PostreSQL service, entering the following at a prompt:
+
+#+BEGIN_SRC sh
+sudo systemctl restart postgresql.service
+#+END_SRC
+
+* Creating a Database for Testing
+
+Enter the following command at a prompt, afterwards providing the password for the postgres user configured earlier, to create a new database called 'db_test':
+
+#+BEGIN_SRC sh
+sudo -u postgres psql db_test
+#+END_SRC
+
+Here I create a new table containing the ids, names and populations of provinces, with a single row:
+
+#+BEGIN_SRC sh
+create table provinces (id INT, name VARCHAR(20), population INT);  
+insert into provinces (id, name, population) values (1, 'alberta', 24);
+#+END_SRC
+
+* Connector Application Source Code
+
+An example of interaction with the afore created database using libpqxx is shown below, implemented within a main.cpp file. The implementation was conducted referencing source found on the libpqxx site [3] (under the 'Example' section). To successfully run the sample, manually replace 'PASSWORD' with the password given to the postgres user configured above:
+
+#+BEGIN_SRC C++
+#include <iostream>
+#include <string>
+#include <cassert>
+
+#include <pqxx/pqxx>
+
+int main()
+{
+  pqxx::connection c("dbname=db_test user=postgres password=PASSWORD");
+
+  c.prepare("create",
+    "INSERT INTO provinces (id, name, population) \
+    VALUES ($1, $2, $3)");
+  c.prepare("read_by_id",
+    "SELECT * FROM provinces WHERE id = $1");
+  c.prepare("read_by_name",
+    "SELECT * FROM provinces WHERE name = $1");
+  c.prepare("update_by_id",
+    "UPDATE provinces SET population = population + 1 \
+    WHERE id = $1");
+  c.prepare("delete_by_id",
+    "DELETE FROM provinces WHERE id = $1");
+
+  {
+    pqxx::work txn(c);
+    pqxx::result res;
+
+    int test_id = 9999;
+    std::string test_name = "test name";
+    int test_population = 50;
+
+    // --- Create ---
+    {
+      txn.prepared("create")(test_id)(test_name)(test_population)
+        .exec();
+
+      res = txn.prepared("read_by_id")(test_id).exec();
+
+      if (res.size() == 0)
+      {
+        std::cerr <<
+          "No records with name " << test_name << ", were found." <<
+        std::endl;
+
+        return -1;
+      }
+
+      int province_id = res[0][0].as<int>();
+      assert(province_id == test_id);
+
+      std::string province_name = res[0][1].as<std::string>();
+      assert(province_name.compare(test_name) == 0);
+
+      int province_population = res[0][2].as<int>();
+      assert(province_population == test_population);
+
+      std::cout << "Province #" << province_id <<
+        ", has name: " << province_name <<
+        ", and population: " << province_population << std::endl;
+    }
+
+    // --- Update ---
+    {
+      std::cout << "Updating province with id: " << test_id <<
+      std::endl;
+
+      txn.prepared("update_by_id")(test_id).exec();
+
+      res = txn.prepared("read_by_id")(test_id).exec();
+
+      int province_population = res[0][2].as<int>();
+      assert(province_population == test_population + 1);
+    }
+
+    // --- Delete ---
+    {
+      txn.prepared("delete_by_id")(test_id).exec();
+
+      res = txn.prepared("read_by_id")(test_id).exec();
+      assert(res.size() == 0);
+    }
+
+    txn.commit();
+  }
+}
+#+END_SRC
+
+Compilation may be accomplished by invoking the following at a prompt:
+
+#+BEGIN_SRC sh
+g++ main.cpp -lpqxx -lpq
+#+END_SRC
+
+A copy of the source is available [[https://github.com/adlawren/PostgreSQL-Cpp-API-Test][here]].
+
+* Sources
+
+[1] [[https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-12-04][https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-12-04, "How To Install and Use PostgreSQL on Ubuntu 12.04", 2016.]] [Accessed: 27-Aug-2016].
+[2] [[https://help.ubuntu.com/stable/serverguide/postgresql.html][https://help.ubuntu.com/stable/serverguide/postgresql.html, "PostgreSQL", 2016.]] [Accessed: 27-Aug-2016].
+[3] [[http://pqxx.org/development/libpqxx/wiki][http://pqxx.org/development/libpqxx/wiki, "C++ connector for PostgreSQL", 2016.]] [Accessed: 27-Aug-2016].
