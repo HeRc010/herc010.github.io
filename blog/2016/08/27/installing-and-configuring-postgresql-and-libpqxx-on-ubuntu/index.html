@@ -32,9 +32,9 @@
 <div class="post">
 <h1>Installing And Configuring PostgreSQL And Libpqxx On Ubuntu</h1>
 
-<div id="outline-container-org9d76e68" class="outline-2">
-<h2 id="org9d76e68">Installation</h2>
-<div class="outline-text-2" id="text-org9d76e68">
+<div id="outline-container-orga3216bc" class="outline-2">
+<h2 id="orga3216bc">Installation</h2>
+<div class="outline-text-2" id="text-orga3216bc">
 <p>
 To install the packages needed (including the postgres server [1], client and libpqxx), enter the following at a prompt:<br />
 </p>
@@ -46,9 +46,9 @@ To install the packages needed (including the postgres server [1], client and li
 </div>
 </div>
 
-<div id="outline-container-org0d553c1" class="outline-2">
-<h2 id="org0d553c1">Database Configuration</h2>
-<div class="outline-text-2" id="text-org0d553c1">
+<div id="outline-container-org08ad227" class="outline-2">
+<h2 id="org08ad227">Database Configuration</h2>
+<div class="outline-text-2" id="text-org08ad227">
 <p>
 This process was found on the Ubuntu Documentation site [2].<br />
 </p>
@@ -67,11 +67,11 @@ Edit the  /etc/postgresql/9.5/main/postgresql.conf file, changing:<br />
 to:<br />
 </p>
 
+<blockquote>
 <p>
-```<br />
 listen_addresses = '*'<br />
-```<br />
 </p>
+</blockquote>
 
 <p>
 Next, change the psql password of the 'postgres' user, entering the following at a prompt:<br />
@@ -87,21 +87,21 @@ template1=# ALTER USER postgres with encrypted password 'your_password';
 Next, edit the /etc/postgresql/9.1/main/pg_hba.conf file, changing:<br />
 </p>
 
+<blockquote>
 <p>
-```<br />
 local   all         postgres                          peer<br />
-```<br />
 </p>
+</blockquote>
 
 <p>
 to:<br />
 </p>
 
+<blockquote>
 <p>
-```<br />
 local   all         postgres                          md5<br />
-```<br />
 </p>
+</blockquote>
 
 <p>
 Next, restart the PostreSQL service, entering the following at a prompt:<br />
@@ -114,9 +114,9 @@ Next, restart the PostreSQL service, entering the following at a prompt:<br />
 </div>
 </div>
 
-<div id="outline-container-org958b937" class="outline-2">
-<h2 id="org958b937">Creating a Database for Testing</h2>
-<div class="outline-text-2" id="text-org958b937">
+<div id="outline-container-org69be5b2" class="outline-2">
+<h2 id="org69be5b2">Creating a Database for Testing</h2>
+<div class="outline-text-2" id="text-org69be5b2">
 <p>
 Enter the following command at a prompt, afterwards providing the password for the postgres user configured earlier, to create a new database called 'db_test':<br />
 </p>
@@ -138,9 +138,9 @@ insert into provinces (id, name, population) values (1, 'alberta', 24);
 </div>
 </div>
 
-<div id="outline-container-orgb80c367" class="outline-2">
-<h2 id="orgb80c367">Connector Application Source Code</h2>
-<div class="outline-text-2" id="text-orgb80c367">
+<div id="outline-container-org037c4d1" class="outline-2">
+<h2 id="org037c4d1">Connector Application Source Code</h2>
+<div class="outline-text-2" id="text-org037c4d1">
 <p>
 An example of interaction with the afore created database using libpqxx is shown below, implemented within a main.cpp file. The implementation was conducted referencing source found on the libpqxx site [3] (under the 'Example' section). To successfully run the sample, manually replace 'PASSWORD' with the password given to the postgres user configured above:<br />
 </p>
@@ -249,9 +249,9 @@ A copy of the source is available <a href="https://github.com/adlawren/PostgreSQ
 </div>
 </div>
 
-<div id="outline-container-org143ed7a" class="outline-2">
-<h2 id="org143ed7a">Sources</h2>
-<div class="outline-text-2" id="text-org143ed7a">
+<div id="outline-container-orgff6d5fa" class="outline-2">
+<h2 id="orgff6d5fa">Sources</h2>
+<div class="outline-text-2" id="text-orgff6d5fa">
 <p>
 [1] <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-12-04">https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-12-04, "How To Install and Use PostgreSQL on Ubuntu 12.04", 2016.</a> [Accessed: 27-Aug-2016].<br />
 [2] <a href="https://help.ubuntu.com/stable/serverguide/postgresql.html">https://help.ubuntu.com/stable/serverguide/postgresql.html, "PostgreSQL", 2016.</a> [Accessed: 27-Aug-2016].<br />
