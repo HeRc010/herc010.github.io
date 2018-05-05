@@ -1,0 +1,125 @@
+#+TITLE:       Installing And Configuring MySQL And Associated Cpp Connector On Ubuntu
+#+AUTHOR:      Andrew L
+#+EMAIL:       adlawren@onyx
+#+DATE:        2016-08-27 Sat
+#+URI:         /blog/2016/08/27/installing-and-configuring-mysql-and-associated-cpp-connector-on-ubuntu
+#+KEYWORDS:    MySQL, C++, Connector, Ubuntu
+#+TAGS:        MySQL, C++, Connector, Ubuntu
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Installing And Configuring MySQL And Associated Cpp Connector On Ubuntu
+
+#+OPTIONS: \n:t
+
+* Installation
+
+To install the needed packages, enter the following at a prompt:
+
+#+BEGIN_SRC sh
+sudo apt-get install mysql-server libmysqlcppconn-dev mysql-client libmysqlclient-dev
+#+END_SRC
+
+* Creating a Database for Testing
+
+Access the server, typing the following at a prompt, providing the required password afterwards:
+
+#+BEGIN_SRC sh
+mysql -u root -p
+#+END_SRC
+
+Here I create a new table containing the ids, names and populations of provinces, with a few rows:
+
+#+BEGIN_SRC sh
+mysql>create DATABASE provinces;
+mysql>SHOW DATABASES;
+mysql>USE provinces;
+mysql>CREATE TABLE provinces (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, province CHAR(25), population INT(9));
+mysql>INSERT INTO provinces (id, province, population) VALUES (NULL, 'Alberta', '4000');
+mysql>INSERT INTO provinces (id, province, population) VALUES (NULL, 'British Columbia', '9001'), (NULL, 'Ontario', '12'), (NULL, 'Prince Edward Island', '-4');
+mysql>SELECT * FROM provinces;
+mysql>SELECT province, population FROM provinces ORDER BY population;
+mysql>SELECT province, population FROM provinces ORDER BY population DESC;
+#+END_SRC
+
+* Connector Application Source Code
+
+An example of interaction with the afore created database using the MySQL C++ connector API is shown below, implemented within a main.cpp file. The implementation was conducted referencing source found on the MySQL developer site [1]. To successfully run the sample, manually replace 'PASSWORD' with the appropriate password:
+
+#+BEGIN_SRC C++
+#include <iostream>
+#include <stdexcept>
+
+#include <cppconn/driver.h>
+#include <cppconn/connection.h>
+#include <cppconn/statement.h>
+#include <cppconn/resultset.h>
+#include <cppconn/prepared_statement.h>
+
+static const std::string url = "tcp://127.0.0.1:3306";
+static const std::string user = "root";
+static const std::string password = "PASSWORD";
+
+int main(int argc, char* argv[])
+{
+  sql::Driver *driver;
+  sql::Connection *conn;
+  sql::Statement *stmt;
+  sql::ResultSet *rs;
+  sql::PreparedStatement *prep_stmt;
+
+  try
+  {
+    driver = get_driver_instance();
+
+    conn = driver->connect(url, user, password);
+
+    conn->setSchema("provinces");
+
+    // Statement example
+    stmt = conn->createStatement();
+
+    rs = stmt->executeQuery("SELECT * FROM provinces");
+
+    std::cout << "Retreived row count: " << rs->rowsCount() << std::endl;
+
+    for (size_t i = 0; i < rs->rowsCount(); ++i) {
+      rs->next();
+      std::cout << "Next string: " <<  rs->getString("province") <<  std::endl;
+    }
+
+    // Prepared statement example
+    prep_stmt = conn->prepareStatement("INSERT INTO provinces (province, population) VALUES (?, ?)");
+
+    prep_stmt->setString(1, "test province");
+    prep_stmt->setString(2, "3");
+
+    int update_count = prep_stmt->executeUpdate();
+
+    std::cout << "Updated row count: " << update_count << std::endl;
+
+    delete rs;
+    delete stmt;
+    delete prep_stmt;
+    conn->close();
+    delete conn;
+  }
+  catch (sql::SQLException &e)
+  {
+    std::cout << "Error during processing.." << std::endl;
+  }
+
+  return 0;
+}
+#+END_SRC
+
+Compilation may be accomplished by invoking the following at a prompt:
+
+#+BEGIN_SRC sh
+g++ -std=c++0x -o test.out main.cpp -lmysqlcppconn
+#+END_SRC
+
+A copy of the source is available [[https://github.com/adlawren/MySQL-Cpp-Connector-Test][here]].
+
+* Sources
+
+[1] [[https://dev.mysql.com/tech-resources/articles/mysql-connector-cpp.html][https://dev.mysql.com/tech-resources/articles/mysql-connector-cpp.html, "Developing Database Applications Using MySQL Connector/C++", 2016.]] [Accessed: 27-Aug-2016]. 
