@@ -32,9 +32,9 @@
 <div class="post">
 <h1>Fixing a Broken Multi-Boot System from the Grub Command Prompt</h1>
 
-<div id="outline-container-org93ea00c" class="outline-2">
-<h2 id="org93ea00c">Overview</h2>
-<div class="outline-text-2" id="text-org93ea00c">
+<div id="outline-container-orgae2e23a" class="outline-2">
+<h2 id="orgae2e23a">Overview</h2>
+<div class="outline-text-2" id="text-orgae2e23a">
 <p>
 I use an ASUS laptop with a UEFI motherboard for the majority of my computing tasks, which until recently utilized a dual boot system hosting both Windows 10 and Ubuntu 15.04, though I almost exclusively used Ubuntu.<br />
 </p>
@@ -49,16 +49,18 @@ After deleting the existing Ubuntu partition within Windows in order to make spa
 </div>
 </div>
 
-<div id="outline-container-org775cf53" class="outline-2">
-<h2 id="org775cf53">Boot Failure</h2>
-<div class="outline-text-2" id="text-org775cf53">
+<div id="outline-container-org13d83f3" class="outline-2">
+<h2 id="org13d83f3">Boot Failure</h2>
+<div class="outline-text-2" id="text-org13d83f3">
 <p>
 Follwing such discourse I witnessed the following, indicative of a boot failure:<br />
 </p>
 
-<p>
-![](<img src="http://i.imgur.com/Z28h3m5.jpg" alt="Z28h3m5.jpg" />)<br />
+
+<div class="figure">
+<p><img src="http://i.imgur.com/Z28h3m5.jpg" alt="Z28h3m5.jpg" /><br />
 </p>
+</div>
 
 <p>
 After selecting ok, and a few lines of text being printed to the screen in sucession so quickly that I couldn't read them, a GRUB command prompt was displayed. After using 'ls' to examine what was accessible from the prompt I observed that two disks were available: hd0; the bootable USB, and hd1; the hard disk of the laptop.<br />
@@ -66,19 +68,20 @@ After selecting ok, and a few lines of text being printed to the screen in suces
 </div>
 </div>
 
-<div id="outline-container-org156b8a7" class="outline-2">
-<h2 id="org156b8a7">Booting the Debian Installer from the Bootable USB</h2>
-<div class="outline-text-2" id="text-org156b8a7">
+<div id="outline-container-orgab11288" class="outline-2">
+<h2 id="orgab11288">Booting the Debian Installer from the Bootable USB</h2>
+<div class="outline-text-2" id="text-orgab11288">
 <p>
-After further examination of the contents of the accessible disks, and after doing some research online, I noticed a pair of adjacent files on the bootable USB looked familiar, indeed similar to the files shown in a particular blog post [1]. I applied the follwing sequence of commands, similar to those used in the blog post:<br />
+After further examination of the contents of the accessible disks, and after doing some research online, I noticed a pair of adjacent files on the bootable USB looked familiar, indeed similar to the files shown in a particular blog post [1]. I applied the following sequence of commands, similar to those used in the blog post:<br />
 </p>
 
-<p>
-&gt;set root=(hd0,1)<br />
-&gt;linux (hd0,1)/install.amd/vmlinuz root=/dev/sd00 ro<br />
-&gt;initrd (hd0,1)/install.amd/initrd.gz<br />
-&gt;boot<br />
-</p>
+<div class="org-src-container">
+<pre class="src src-sh">set root=(hd0,1)  
+linux (hd0,1)/install.amd/vmlinuz root=/dev/sd00 ro  
+initrd (hd0,1)/install.amd/initrd.gz  
+boot  
+</pre>
+</div>
 
 <p>
 In doing so, I managed to launch the Debian installer in non-graphical mode. My assumption was that I would be able to install Debian within the space for which the installation was previously allocated, and that during the installation GRUB would be installed in a manner which would repair the apparently broken previous GRUB installation.<br />
@@ -86,9 +89,9 @@ In doing so, I managed to launch the Debian installer in non-graphical mode. My 
 </div>
 </div>
 
-<div id="outline-container-orgcc54cbf" class="outline-2">
-<h2 id="orgcc54cbf">Loading the GRUB Configuration File</h2>
-<div class="outline-text-2" id="text-orgcc54cbf">
+<div id="outline-container-orga2984c6" class="outline-2">
+<h2 id="orga2984c6">Loading the GRUB Configuration File</h2>
+<div class="outline-text-2" id="text-orga2984c6">
 <p>
 However after installing Debian and rebooting, the issue persisted. After further examination of the disk contents, and a significant amount of time invested in reading material online, at one point after reading the contents of the grub.cfg file residing in the hard disk of the computer at the path: '(hd1,1)/EFI/ubuntu/', I realized that GRUB was simply loading another grub.cfg file from the '<i>boot/grub</i>' directory within a particular partition, which I assumed previously held the Ubuntu installation.<br />
 </p>
@@ -97,11 +100,12 @@ However after installing Debian and rebooting, the issue persisted. After furthe
 After making this observation I hypothesized that the Debian installation likely contained a grub.cfg file in the same location, and as such I could use the following commands, similar to those used within the previously utilized grub configuration file:<br />
 </p>
 
-<p>
-&gt;set root=(hd1,gpt9)<br />
-&gt;set prefix=($root)'/boot/grub'<br />
-&gt;configfile $prefix/grub.cfg<br />
-</p>
+<div class="org-src-container">
+<pre class="src src-sh">set root=(hd1,gpt9)  
+set prefix=($root)'/boot/grub'  
+configfile $prefix/grub.cfg  
+</pre>
+</div>
 
 <p>
 Not knowing which partition within which Debian was installed however, I applied the command sequence to numerous partitions until I was able to locate the partition within which Debian was installed, and in doing so load the configuration file produced during the Debian installation process. Once I sucessfully loaded the configuation file I was able to successfully boot into Debian and Windows.<br />
@@ -109,9 +113,9 @@ Not knowing which partition within which Debian was installed however, I applied
 </div>
 </div>
 
-<div id="outline-container-org8a03f93" class="outline-2">
-<h2 id="org8a03f93">Sources</h2>
-<div class="outline-text-2" id="text-org8a03f93">
+<div id="outline-container-orgcbdb939" class="outline-2">
+<h2 id="orgcbdb939">Sources</h2>
+<div class="outline-text-2" id="text-orgcbdb939">
 <p>
 [1] <a href="http://karuppuswamy.com/wordpress/2011/09/09/how-to-fix-grub-rescue-prompt-without-live-cd-for-grub2/">http://karuppuswamy.com/wordpress/2011/09/09/how-to-fix-grub-rescue-prompt-without-live-cd-for-grub2/, "How to Fix GRUB Rescue Prompt Without Live CD (For GRUB2)", 2016.</a> [Accessed: 30-Apr-2016].<br />
 </p>
