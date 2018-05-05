@@ -23,18 +23,20 @@ After deleting the existing Ubuntu partition within Windows in order to make spa
 
 Follwing such discourse I witnessed the following, indicative of a boot failure:
 
-![](http://i.imgur.com/Z28h3m5.jpg)
+http://i.imgur.com/Z28h3m5.jpg
 
 After selecting ok, and a few lines of text being printed to the screen in sucession so quickly that I couldn't read them, a GRUB command prompt was displayed. After using 'ls' to examine what was accessible from the prompt I observed that two disks were available: hd0; the bootable USB, and hd1; the hard disk of the laptop.
 
 * Booting the Debian Installer from the Bootable USB
 
-After further examination of the contents of the accessible disks, and after doing some research online, I noticed a pair of adjacent files on the bootable USB looked familiar, indeed similar to the files shown in a particular blog post [1]. I applied the follwing sequence of commands, similar to those used in the blog post:
+After further examination of the contents of the accessible disks, and after doing some research online, I noticed a pair of adjacent files on the bootable USB looked familiar, indeed similar to the files shown in a particular blog post [1]. I applied the following sequence of commands, similar to those used in the blog post:
 
->set root=(hd0,1)  
->linux (hd0,1)/install.amd/vmlinuz root=/dev/sd00 ro  
->initrd (hd0,1)/install.amd/initrd.gz  
->boot  
+#+BEGIN_SRC sh
+set root=(hd0,1)  
+linux (hd0,1)/install.amd/vmlinuz root=/dev/sd00 ro  
+initrd (hd0,1)/install.amd/initrd.gz  
+boot  
+#+END_SRC
 
 In doing so, I managed to launch the Debian installer in non-graphical mode. My assumption was that I would be able to install Debian within the space for which the installation was previously allocated, and that during the installation GRUB would be installed in a manner which would repair the apparently broken previous GRUB installation.
 
@@ -44,9 +46,11 @@ However after installing Debian and rebooting, the issue persisted. After furthe
 
 After making this observation I hypothesized that the Debian installation likely contained a grub.cfg file in the same location, and as such I could use the following commands, similar to those used within the previously utilized grub configuration file:
 
->set root=(hd1,gpt9)  
->set prefix=($root)'/boot/grub'  
->configfile $prefix/grub.cfg  
+#+BEGIN_SRC sh
+set root=(hd1,gpt9)  
+set prefix=($root)'/boot/grub'  
+configfile $prefix/grub.cfg  
+#+END_SRC
 
 Not knowing which partition within which Debian was installed however, I applied the command sequence to numerous partitions until I was able to locate the partition within which Debian was installed, and in doing so load the configuration file produced during the Debian installation process. Once I sucessfully loaded the configuation file I was able to successfully boot into Debian and Windows.
 
