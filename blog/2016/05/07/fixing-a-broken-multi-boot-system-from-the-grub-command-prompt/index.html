@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Fixing a Broken Multi-Boot System from the Grub Command Prompt - Bits and Bytes</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew L" />
+    <meta name="description" content="Fixing a Broken Multi-Boot System from the Grub Command Prompt" />
+    <meta name="keywords" content="Grub2, Debian, Ubuntu, Windows 10, Dual Boot" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Bits and Bytes</a></h1>
+        <p>Notes from the deviant pursuits of a technical vagrant</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/adlawren">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="//www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="adlawren.github.io">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Fixing a Broken Multi-Boot System from the Grub Command Prompt</h1>
+
+<div id="outline-container-org93ea00c" class="outline-2">
+<h2 id="org93ea00c">Overview</h2>
+<div class="outline-text-2" id="text-org93ea00c">
+<p>
+I use an ASUS laptop with a UEFI motherboard for the majority of my computing tasks, which until recently utilized a dual boot system hosting both Windows 10 and Ubuntu 15.04, though I almost exclusively used Ubuntu.<br />
+</p>
+
+<p>
+I recently made the decision to try Debian. After preparing a bootable ISO, I made the naive assumption that the GRUB installation performed during the installation of Ubuntu was performed in an independent manner from the Ubuntu installation, and as such that I was free to delete and reformat the existing Ubuntu partition with no consequences to the integrity of the bootloader; I assumed that after rebooting, GRUB would simply display the remaining, valid boot entries.<br />
+</p>
+
+<p>
+After deleting the existing Ubuntu partition within Windows in order to make space for the new Debian installation, I rebooted the computer, further assuming that the mistake of having not entered the UEFI manager via Shift+Restart in Windows (in order to boot from the USB) would be of little consequence, since I would likely be able to reboot into Windows should the EFI manager fail to boot from the bootable USB by default.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org775cf53" class="outline-2">
+<h2 id="org775cf53">Boot Failure</h2>
+<div class="outline-text-2" id="text-org775cf53">
+<p>
+Follwing such discourse I witnessed the following, indicative of a boot failure:<br />
+</p>
+
+<p>
+![](<img src="http://i.imgur.com/Z28h3m5.jpg" alt="Z28h3m5.jpg" />)<br />
+</p>
+
+<p>
+After selecting ok, and a few lines of text being printed to the screen in sucession so quickly that I couldn't read them, a GRUB command prompt was displayed. After using 'ls' to examine what was accessible from the prompt I observed that two disks were available: hd0; the bootable USB, and hd1; the hard disk of the laptop.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org156b8a7" class="outline-2">
+<h2 id="org156b8a7">Booting the Debian Installer from the Bootable USB</h2>
+<div class="outline-text-2" id="text-org156b8a7">
+<p>
+After further examination of the contents of the accessible disks, and after doing some research online, I noticed a pair of adjacent files on the bootable USB looked familiar, indeed similar to the files shown in a particular blog post [1]. I applied the follwing sequence of commands, similar to those used in the blog post:<br />
+</p>
+
+<p>
+&gt;set root=(hd0,1)<br />
+&gt;linux (hd0,1)/install.amd/vmlinuz root=/dev/sd00 ro<br />
+&gt;initrd (hd0,1)/install.amd/initrd.gz<br />
+&gt;boot<br />
+</p>
+
+<p>
+In doing so, I managed to launch the Debian installer in non-graphical mode. My assumption was that I would be able to install Debian within the space for which the installation was previously allocated, and that during the installation GRUB would be installed in a manner which would repair the apparently broken previous GRUB installation.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcc54cbf" class="outline-2">
+<h2 id="orgcc54cbf">Loading the GRUB Configuration File</h2>
+<div class="outline-text-2" id="text-orgcc54cbf">
+<p>
+However after installing Debian and rebooting, the issue persisted. After further examination of the disk contents, and a significant amount of time invested in reading material online, at one point after reading the contents of the grub.cfg file residing in the hard disk of the computer at the path: '(hd1,1)/EFI/ubuntu/', I realized that GRUB was simply loading another grub.cfg file from the '<i>boot/grub</i>' directory within a particular partition, which I assumed previously held the Ubuntu installation.<br />
+</p>
+
+<p>
+After making this observation I hypothesized that the Debian installation likely contained a grub.cfg file in the same location, and as such I could use the following commands, similar to those used within the previously utilized grub configuration file:<br />
+</p>
+
+<p>
+&gt;set root=(hd1,gpt9)<br />
+&gt;set prefix=($root)'/boot/grub'<br />
+&gt;configfile $prefix/grub.cfg<br />
+</p>
+
+<p>
+Not knowing which partition within which Debian was installed however, I applied the command sequence to numerous partitions until I was able to locate the partition within which Debian was installed, and in doing so load the configuration file produced during the Debian installation process. Once I sucessfully loaded the configuation file I was able to successfully boot into Debian and Windows.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8a03f93" class="outline-2">
+<h2 id="org8a03f93">Sources</h2>
+<div class="outline-text-2" id="text-org8a03f93">
+<p>
+[1] <a href="http://karuppuswamy.com/wordpress/2011/09/09/how-to-fix-grub-rescue-prompt-without-live-cd-for-grub2/">http://karuppuswamy.com/wordpress/2011/09/09/how-to-fix-grub-rescue-prompt-without-live-cd-for-grub2/, "How to Fix GRUB Rescue Prompt Without Live CD (For GRUB2)", 2016.</a> [Accessed: 30-Apr-2016].<br />
+</p>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2016-05-07</span>
+        <span title="last modification date" class="post-info">2018-05-05</span>
+        <span title="tags" class="post-info"><a href="/tags/grub2/">Grub2</a>, <a href="/tags/debian/">Debian</a>, <a href="/tags/ubuntu/">Ubuntu</a>, <a href="/tags/windows-10/">Windows 10</a>, <a href="/tags/dual-boot/">Dual Boot</a></span>
+        <span title="author" class="post-info">Andrew L</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2016/05/07/fixing-a-broken-multi-boot-system-from-the-grub-command-prompt";
+          var disqus_url = "http://adlawren.github.io/blog/2016/05/07/fixing-a-broken-multi-boot-system-from-the-grub-command-prompt";
+          var disqus_shortname = 'adlawren';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="//disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="//code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 9.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:adlawren &lt;at&gt; onyx">Andrew L</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>

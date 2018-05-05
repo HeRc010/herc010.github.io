@@ -4,10 +4,17 @@
     <title>Bits and Bytes</title>
     <link>http://adlawren.github.io</link>
     <description>Notes from the deviant pursuits of a technical vagrant</description>
-    <pubDate>Sat, 05 May 2018 10:00:16 MDT</pubDate>
-    <lastBuildDate>Sat, 05 May 2018 10:00:16 MDT</lastBuildDate>
+    <pubDate>Sat, 05 May 2018 10:38:38 MDT</pubDate>
+    <lastBuildDate>Sat, 05 May 2018 10:38:38 MDT</lastBuildDate>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>Org-page static site generator (https://github.com/kelvinh/org-page)</generator>
+    <item>
+      <title>Fixing a Broken Multi-Boot System from the Grub Command Prompt</title>
+      <link>http://adlawren.github.io/blog/2016/05/07/fixing-a-broken-multi-boot-system-from-the-grub-command-prompt</link>
+      <description><![CDATA[Fixing a Broken Multi-Boot System from the Grub Command Prompt]]></description>
+      <pubDate>2018-05-05</pubDate>
+      <guid>http://adlawren.github.io/blog/2016/05/07/fixing-a-broken-multi-boot-system-from-the-grub-command-prompt</guid>
+    </item>
     <item>
       <title>Mozilla Permits the Use of Multiple SHA-1 Certificates</title>
       <link>http://adlawren.github.io/blog/2016/02/27/mozilla-permits-the-use-of-multiple-sha-1-certificates</link>
