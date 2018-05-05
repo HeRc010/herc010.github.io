@@ -1,0 +1,52 @@
+#+TITLE:       Remapping the Right-Alt Key in Colemak
+#+AUTHOR:      Andrew L
+#+EMAIL:       adlawren@onyx
+#+DATE:        2017-12-15 Fri
+#+URI:         /blog/2017/12/15/remapping-the-right-alt-key-in-colemak
+#+KEYWORDS:    Ubuntu, Colemak, Keyboard Layout
+#+TAGS:        Ubuntu, Colemak, Keyboard Layout
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Remapping the Right-Alt Key in Colemak
+
+#+OPTIONS: \n:t
+
+* Overview
+
+When using Colemak on Ubuntu, by default the right-alt key is mapped to "Level 3 shift." An unfortunate side effect is that when alt-tabbing, you are unable to use the right-alt key.
+
+* Solution
+
+I Spent a lot of time looking at different possible solutions (setxkbmap stuff mostly), but eventually I found a way to use xmodmap to set the value of the key to the right-alt key.
+
+To switch to the Colemak layout, enter the following in a shell:
+
+#+BEGIN_SRC sh
+setxkbmap us -variant colemak
+#+END_SRC
+
+Alternatively, you can set the layout using System Settings.
+
+Next, find the keycode of the right-alt key. I inspected the keymap through system settings [add supporting how-to workflow] and observed that the right-alt key is remmapped to a "Level 3 Shift" in the Colemak layout.
+
+The keycode of the "Level 3 Shift" key can be found by running the following command in a shell:
+
+#+BEGIN_SRC sh
+xmodmap -pke | grep Shift
+#+END_SRC
+
+In my case, the keycode is 108.
+
+This key can be remapped to the righ-alt key using the xmodmap tool (as shown in [1] and [2]) by running the following command in a shell.
+
+#+BEGIN_SRC sh
+xmodmap -e "keycode 108 = Alt_R Meta_R Alt_R Meta_R"
+#+END_SRC
+
+This command can be executed automatically each time the computer boots by adding a startup command, as described in [3].
+
+* Sources
+
+[1] [[https://askubuntu.com/questions/296155/how-can-i-remap-keyboard-keys/296437#296437][https://askubuntu.com/questions/296155/how-can-i-remap-keyboard-keys/296437#296437, "How can I remap keyboard keys? @@html:&#91;@@duplicate@@html:&#93;@@", 2013.]] [Accessed: 15-Dec-2017].
+[2] [[https://askubuntu.com/questions/333897/how-to-apply-xmodmap-permanently/333917#333917][https://superuser.com/questions/2194/remap-keys-in-linux, "Remap Keys in Linux", 2014.]] [Accessed: 15-Dec-2017].
+[3] [[https://askubuntu.com/questions/333897/how-to-apply-xmodmap-permanently/333917#333917][https://superuser.com/questions/2194/remap-keys-in-linux, "How to apply Xmodmap permanently", 2013.]] [Accessed: 15-Dec-2017].
