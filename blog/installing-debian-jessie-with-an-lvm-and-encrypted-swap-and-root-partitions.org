@@ -15,7 +15,7 @@
 
 I accept no responsibility for any damage which results from the application (in whole or in part, properly or poorly, explicitly or implicitly) of the approach to disk encryption described below. Ultimately it is your responsibility to ensure that your computer systems are properly configured and secured. Proceed at your own risk.
 
-Furthermore, I accept no responsibility should this approach be utilized for the storage of illegal material. I do not support, or condone such an act, and I do not support or condone the use of this guide for such purposes.
+Furthermore, I accept no responsibility should the approach to disk encryption described below be utilized for the storage of illegal material. I do not support, or condone such an act, and I do not support or condone the use of this guide for such purposes. The application (in whole or in part, properly or poorly, explicitly or implicitly) of the approach to disk encryption described below for such purposes shall not be considered support on my behalf for such activities.
 
 * Overview
 
