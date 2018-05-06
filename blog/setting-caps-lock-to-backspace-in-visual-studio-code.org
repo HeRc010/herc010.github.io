@@ -1,0 +1,35 @@
+#+TITLE:       Setting Caps Lock to Backspace in Visual Studio Code
+#+AUTHOR:      Andrew L
+#+EMAIL:       adlawren@onyx
+#+DATE:        2018-03-01 Thu
+#+URI:         /blog/2018/03/01/setting-caps-lock-to-backspace-in-visual-studio-code
+#+KEYWORDS:    Ubuntu, Colemak, Keyboard Layout, Visual Studio Code
+#+TAGS:        Ubuntu, Colemak, Keyboard Layout, Visual Studio Code
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Setting Caps Lock to Backspace in Visual Studio Code
+
+#+OPTIONS: \n:t
+
+* Overview
+
+When using Visual Studio Code on Ubuntu, despite using the Colemak keyboard layout, the Caps Lock key was not remapped to Backspace in the editor. In order to remap the key manually, I used the following process.
+
+* Solution
+
+Edit the keybindings.json file by selecting "File" -> "Preferences" -> "Keyboard Shortcuts." In the "Keyboard Shortcuts" window that opens, there's a line which reads "For advanced customizations open and edit keybindings.json", click on "keybindings.json."
+
+Add the following entry to the file:
+
+#+BEGIN_SRC js 
+{"key": "capslock", "command": "deleteLeft"}
+#+END_SRC
+
+After adding this entry, the file contents were as follows:
+
+#+BEGIN_SRC js
+// Place your key bindings in this file to overwrite the defaults
+[
+    { "key": "capslock", "command": "deleteLeft"}
+]
+#+END_SRC
