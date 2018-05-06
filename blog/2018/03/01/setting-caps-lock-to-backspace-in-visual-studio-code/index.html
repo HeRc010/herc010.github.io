@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>Staminus Communications Recently Hacked - Bits and Bytes</title>
+    <title>Setting Caps Lock to Backspace in Visual Studio Code - Bits and Bytes</title>
     <meta charset="utf-8" />
     <meta name="author" content="Andrew L" />
-    <meta name="description" content="Staminus Communications Recently Hacked" />
-    <meta name="keywords" content="Vulnerability, Exploit, Staminus Communications" />
+    <meta name="description" content="Setting Caps Lock to Backspace in Visual Studio Code" />
+    <meta name="keywords" content="Ubuntu, Colemak, Keyboard Layout, Visual Studio Code" />
     <link rel="stylesheet" href="/media/css/main.css" type="text/css">
     <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
   </head>
@@ -30,45 +30,44 @@
 
 <div>
 <div class="post">
-<h1>Staminus Communications Recently Hacked</h1>
+<h1>Setting Caps Lock to Backspace in Visual Studio Code</h1>
 
-<div id="outline-container-org82afa8a" class="outline-2">
-<h2 id="org82afa8a">TL;DR</h2>
-<div class="outline-text-2" id="text-org82afa8a">
+<div id="outline-container-org1a745b5" class="outline-2">
+<h2 id="org1a745b5">Overview</h2>
+<div class="outline-text-2" id="text-org1a745b5">
 <p>
-Staminus Communications was recently compromised, resulting in the collapse of the company network and the leakage of large volumes of sensitive information, including credit card information [1].<br />
+When using Visual Studio Code on Ubuntu, despite using the Colemak keyboard layout, the Caps Lock key was not remapped to Backspace in the editor. In order to remap the key manually, I used the following process.<br />
 </p>
 </div>
 </div>
 
-<div id="outline-container-org8e3277d" class="outline-2">
-<h2 id="org8e3277d">Overview</h2>
-<div class="outline-text-2" id="text-org8e3277d">
+<div id="outline-container-org342b486" class="outline-2">
+<h2 id="org342b486">Solution</h2>
+<div class="outline-text-2" id="text-org342b486">
 <p>
-Staminus Communications provides services which are intended to mitigate (or eliminate entirely) the effects of DDoS attacks. One such service provided by Staminus Communications is ‘Intreppid’ which provides virtual private servers, along with added features to facilitate DDoS protection.<br />
+Edit the keybindings.json file by selecting "File" -&gt; "Preferences" -&gt; "Keyboard Shortcuts." In the "Keyboard Shortcuts" window that opens, there's a line which reads "For advanced customizations open and edit keybindings.json", click on "keybindings.json."<br />
 </p>
 
 <p>
-An unknown hacker group subverted the server backbone of Staminus Communications and, after reverting the servers to factory settings, caused the collapse of Staminus’ network.<br />
+Add the following entry to the file:<br />
 </p>
 
-<p>
-The contents of multiple databases (Staminus’ main database, the Intreppid database and the database of a Staminus’ client) were leaked using a Hastebin link, which contained Tor links to files stolen from the databases.<br />
-</p>
-
-<p>
-Additionally, the Hastebin link contained a satirical list of ‘Tips when Running a Security Company’ which disclosed potential vulnerabilities which were likely exploited during the attack [2], including but not limited to a shared root password used by the servers, exposed power distribution units on a telnet WAN and comprehensive credit card information being stored in plaintext.<br />
-</p>
-</div>
+<div class="org-src-container">
+<pre class="src src-js">{"key": "capslock", "command": "deleteLeft"}
+</pre>
 </div>
 
-<div id="outline-container-org19b2dff" class="outline-2">
-<h2 id="org19b2dff">Sources</h2>
-<div class="outline-text-2" id="text-org19b2dff">
 <p>
-[1] <a href="http://news.softpedia.com/news/hackers-breach-ddos-protection-firm-staminus-501625.shtml">news.softpedia.com, "Hackers Breach DDoS Protection Firm Staminus", 2016.</a> [Accessed: 11-Mar-2016].<br />
-[2] <a href="http://news.softpedia.com/news/hackers-breach-ddos-protection-firm-staminus-501625.shtml">reddit.com, "Staminus Communications and KKK.com Hacked in Major Security Breach", 2016.</a> [Accessed: 11-Mar-2016].<br />
+After adding this entry, the file contents were as follows:<br />
 </p>
+
+<div class="org-src-container">
+<pre class="src src-js">// Place your key bindings in this file to overwrite the defaults
+[
+    { "key": "capslock", "command": "deleteLeft"}
+]
+</pre>
+</div>
 </div>
 </div>
 
@@ -76,9 +75,9 @@ Additionally, the Hastebin link contained a satirical list of ‘Tips when Runni
 </div>
     <div>
       <div class="post-meta">
-        <span title="post date" class="post-info">2016-03-11</span>
+        <span title="post date" class="post-info">2018-03-01</span>
         <span title="last modification date" class="post-info">2018-05-05</span>
-        <span title="tags" class="post-info"><a href="/tags/vulnerability/">Vulnerability</a>, <a href="/tags/exploit/">Exploit</a></span>
+        <span title="tags" class="post-info"><a href="/tags/ubuntu/">Ubuntu</a>, <a href="/tags/colemak/">Colemak</a>, <a href="/tags/keyboard-layout/">Keyboard Layout</a>, <a href="/tags/visual-studio-code/">Visual Studio Code</a></span>
         <span title="author" class="post-info">Andrew L</span>
       </div>
       <section>
@@ -86,8 +85,8 @@ Additionally, the Hastebin link contained a satirical list of ‘Tips when Runni
         <div id="disqus_thread"></div>
         <script type="text/javascript">
           //var disqus_developer = 1;
-          var disqus_identifier = "/blog/2016/03/11/staminus-communications-recently-hacked";
-          var disqus_url = "http://adlawren.github.io/blog/2016/03/11/staminus-communications-recently-hacked";
+          var disqus_identifier = "/blog/2018/03/01/setting-caps-lock-to-backspace-in-visual-studio-code";
+          var disqus_url = "http://adlawren.github.io/blog/2018/03/01/setting-caps-lock-to-backspace-in-visual-studio-code";
           var disqus_shortname = 'adlawren';
           /* * * DON'T EDIT BELOW THIS LINE * * */
           (function() {

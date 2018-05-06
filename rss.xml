@@ -4,8 +4,8 @@
     <title>Bits and Bytes</title>
     <link>http://adlawren.github.io</link>
     <description>Notes from the deviant pursuits of a technical vagrant</description>
-    <pubDate>Sat, 05 May 2018 13:17:52 MDT</pubDate>
-    <lastBuildDate>Sat, 05 May 2018 13:17:52 MDT</lastBuildDate>
+    <pubDate>Sat, 05 May 2018 18:04:23 MDT</pubDate>
+    <lastBuildDate>Sat, 05 May 2018 18:04:23 MDT</lastBuildDate>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>Org-page static site generator (https://github.com/kelvinh/org-page)</generator>
     <item>
@@ -72,11 +72,11 @@
       <guid>http://adlawren.github.io/blog/2017/12/15/remapping-the-right-alt-key-in-colemak</guid>
     </item>
     <item>
-      <title>Staminus Communications Recently Hacked</title>
-      <link>http://adlawren.github.io/blog/2016/03/11/staminus-communications-recently-hacked</link>
-      <description><![CDATA[Staminus Communications Recently Hacked]]></description>
+      <title>Setting Caps Lock to Backspace in Visual Studio Code</title>
+      <link>http://adlawren.github.io/blog/2018/03/01/setting-caps-lock-to-backspace-in-visual-studio-code</link>
+      <description><![CDATA[Setting Caps Lock to Backspace in Visual Studio Code]]></description>
       <pubDate>2018-05-05</pubDate>
-      <guid>http://adlawren.github.io/blog/2016/03/11/staminus-communications-recently-hacked</guid>
+      <guid>http://adlawren.github.io/blog/2018/03/01/setting-caps-lock-to-backspace-in-visual-studio-code</guid>
     </item>
   </channel>
 </rss>
