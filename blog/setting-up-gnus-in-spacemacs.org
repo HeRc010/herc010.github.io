@@ -1,0 +1,75 @@
+#+TITLE:       Setting up Gnus in Spacemacs
+#+AUTHOR:      Andrew L
+#+EMAIL:       adlawren@onyx
+#+DATE:        2018-05-19 Sat
+#+URI:         /blog/%y/%m/%d/setting-up-gnus-in-spacemacs
+#+KEYWORDS:    Spacemacs, Gnus, Email
+#+TAGS:        Spacemacs, Gnus
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Setting up Gnus in Spacemacs
+
+#+OPTIONS: \n:t
+
+* Create the .authinfo.gpg file
+
+Note: you may have to create a gpg key first[1]: gpg --gen-key 
+
+Create an application password for gmail as described [[https://support.google.com/accounts/answer/185833?hl=en][here]][2].
+
+In Spacemacs, open a scratch buffer, and insert the following[3]:
+
+#+BEGIN_SRC sh
+machine smtp.gmail.com login name@gmail.com password SUPER_SECRET_PASS
+machine imap.gmail.com login name@gmail.com port 993 password SUPER_SECRET_PASS
+#+END_SRC
+
+Substitute "name@gmail.com" for your gmail, and "SUPER_SECRET_PASS" for your application password.
+
+Save the file:
+- Ensure that the gpg key that you created earlier is selected in the buffer that automatically opens
+- Move the cursor over "[Ok]" in that buffer, and press C-c, C-c
+- Enter the password for the key when prompted
+
+* Configure Gnus in the .spacemacs File
+
+Copy the following into the dotspacemacs/init function in the .spacemacs file:
+
+#+BEGIN_SRC emacs-lisp
+;; Get email, and store in nnml
+(setq gnus-secondary-select-methods
+'(
+  (nnimap "gmail"
+           (nnimap-address
+            "imap.gmail.com")
+           (nnimap-server-port 993)
+           (nnimap-stream ssl))
+  ))
+
+;; Send email via Gmail:
+(setq message-send-mail-function 'smtpmail-send-it
+  smtpmail-default-smtp-server "smtp.gmail.com")
+
+;; Archive outgoing email in Sent folder on imap.gmail.com:
+(setq gnus-message-archive-method '(nnimap "imap.gmail.com")
+    gnus-message-archive-group "[Gmail]/Sent Mail")
+
+;; set return email address based on incoming email address
+(setq gnus-posting-styles
+    '(((header "to" "address@outlook.com")
+       (address "address@outlook.com"))
+  ((header "to" "address@gmail.com")
+     (address "address@gmail.com"))))
+
+;; store email in ~/gmail directory
+(setq nnml-directory "~/gmail")
+(setq message-directory "~/gmail")
+#+END_SRC
+
+Restart Spacemacs and use SPC a g to launch gnus.
+
+* Sources
+
+[1] [[http://www.webupd8.org/2010/01/how-to-create-your-own-gpg-key.html][http://www.webupd8.org/2010/01/how-to-create-your-own-gpg-key.html, "How to Create a GPG Key @@html:&#91;@@Ubuntu@@html:&#93;@@", 2010.]] [Accessed: 19-May-2018].
+[2] [[https://support.google.com/accounts/answer/185833?hl=en][https://support.google.com/accounts/answer/185833?hl=en, "Sign in Using App Passwords".]] [Accessed: 19-May-2018].
+[3] [[http://spacemacs.org/layers/+email/gnus/README.html][http://spacemacs.org/layers/+email/gnus/README.html, "Gnus layer", 2016.]] [Accessed: 19-May-2018].
