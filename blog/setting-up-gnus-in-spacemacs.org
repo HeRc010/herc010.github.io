@@ -68,8 +68,18 @@ Copy the following into the dotspacemacs/init function in the .spacemacs file:
 
 Restart Spacemacs and use SPC a g to launch gnus.
 
+* Setting the Proper SMTP Service Port
+
+In order to send emails, you need to set the proper port number which is used when interacting with the SMTP server[4]; add the following to the dotspacemacs/init function in the .spacemacs file[5]:
+
+#+BEGIN_SRC emacs-lisp
+(setq smtpmail-smtp-service 587)
+#+END_SRC
+
 * Sources
 
 [1] [[http://www.webupd8.org/2010/01/how-to-create-your-own-gpg-key.html][http://www.webupd8.org/2010/01/how-to-create-your-own-gpg-key.html, "How to Create a GPG Key @@html:&#91;@@Ubuntu@@html:&#93;@@", 2010.]] [Accessed: 19-May-2018].
 [2] [[https://support.google.com/accounts/answer/185833?hl=en][https://support.google.com/accounts/answer/185833?hl=en, "Sign in Using App Passwords".]] [Accessed: 19-May-2018].
 [3] [[http://spacemacs.org/layers/+email/gnus/README.html][http://spacemacs.org/layers/+email/gnus/README.html, "Gnus layer", 2016.]] [Accessed: 19-May-2018].
+[4] [[https://emacs.stackexchange.com/questions/14677/mu4e-hangs-on-sending-mail/14709#14709][https://emacs.stackexchange.com/questions/14677/mu4e-hangs-on-sending-mail/14709#14709, "mu4e hangs on sending mail", 2015.]] Accessed: 19-May-2018
+[5] [[https://www.gnu.org/software/emacs/manual/html_node/smtpmail/Emacs-Speaks-SMTP.html][https://www.gnu.org/software/emacs/manual/html_node/smtpmail/Emacs-Speaks-SMTP.html, "2 Emacs Speaks SMTP".]] [Accessed: 19-May-2018]
