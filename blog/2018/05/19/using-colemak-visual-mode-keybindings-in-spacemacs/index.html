@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>Setting Caps Lock to Backspace in Visual Studio Code - Bits and Bytes</title>
+    <title>Using Colemak Visual Mode Keybindings in Spacemacs - Bits and Bytes</title>
     <meta charset="utf-8" />
     <meta name="author" content="Andrew L" />
-    <meta name="description" content="Setting Caps Lock to Backspace in Visual Studio Code" />
-    <meta name="keywords" content="Ubuntu, Colemak, Keyboard Layout, Visual Studio Code" />
+    <meta name="description" content="Using Colemak Visual Mode Keybindings in Spacemacs" />
+    <meta name="keywords" content="Colemak, Spacemacs, Vim" />
     <link rel="stylesheet" href="/media/css/main.css" type="text/css">
     <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
   </head>
@@ -30,44 +30,50 @@
 
 <div>
 <div class="post">
-<h1>Setting Caps Lock to Backspace in Visual Studio Code</h1>
+<h1>Using Colemak Visual Mode Keybindings in Spacemacs</h1>
 
-<div id="outline-container-org670597c" class="outline-2">
-<h2 id="org670597c">Overview</h2>
-<div class="outline-text-2" id="text-org670597c">
+<div id="outline-container-org71e2a6e" class="outline-2">
+<h2 id="org71e2a6e">Overview</h2>
+<div class="outline-text-2" id="text-org71e2a6e">
 <p>
-When using Visual Studio Code on Ubuntu, despite using the Colemak keyboard layout, the Caps Lock key was not remapped to Backspace in the editor. In order to remap the key manually, I used the following process.<br />
+By default, the keybindings of visual-mode in Spacemacs (and by extension, in Vim) are tailored to the Qwerty keyboard layout. In order to remap the keybindings to be better suited for the Colemak keyboard, I used an external package as described below.<br />
 </p>
 </div>
 </div>
 
-<div id="outline-container-org57b9164" class="outline-2">
-<h2 id="org57b9164">Solution</h2>
-<div class="outline-text-2" id="text-org57b9164">
+<div id="outline-container-orgd457067" class="outline-2">
+<h2 id="orgd457067">Details</h2>
+<div class="outline-text-2" id="text-orgd457067">
 <p>
-Edit the keybindings.json file by selecting "File" -&gt; "Preferences" -&gt; "Keyboard Shortcuts." In the "Keyboard Shortcuts" window that opens, there's a line which reads "For advanced customizations open and edit keybindings.json", click on "keybindings.json."<br />
-</p>
-
-<p>
-Add the following entry to the file:<br />
+Add the colemak-evil package to additional-packages in the .spacemacs file:<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-js">{"key": "capslock", "command": "deleteLeft"}
+<pre class="src src-emacs-lisp">dotspacemacs-additional-packages '(colemak-evil)
 </pre>
 </div>
 
 <p>
-After adding this entry, the file contents were as follows:<br />
+Require the package in the user-config function in the .spacemacs file:<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-js">// Place your key bindings in this file to overwrite the defaults
-[
-    { "key": "capslock", "command": "deleteLeft"}
-]
+<pre class="src src-emacs-lisp">(defun dotspacemacs/user-config ()
+  ...
+  (require 'colemak-evil)
+  ...
+  )
 </pre>
 </div>
+</div>
+</div>
+
+<div id="outline-container-org34f92e6" class="outline-2">
+<h2 id="org34f92e6">Sources</h2>
+<div class="outline-text-2" id="text-org34f92e6">
+<p>
+[1] <a href="https://github.com/patbl/colemak-evil#setup">https://github.com/patbl/colemak-evil#setup, "Colemak Evil"</a> [Accessed: 19-May-2018].<br />
+</p>
 </div>
 </div>
 
@@ -75,9 +81,9 @@ After adding this entry, the file contents were as follows:<br />
 </div>
     <div>
       <div class="post-meta">
-        <span title="post date" class="post-info">2018-03-01</span>
-        <span title="last modification date" class="post-info">2018-05-05</span>
-        <span title="tags" class="post-info"><a href="/tags/ubuntu/">Ubuntu</a>, <a href="/tags/colemak/">Colemak</a>, <a href="/tags/keyboard-layout/">Keyboard Layout</a>, <a href="/tags/visual-studio-code/">Visual Studio Code</a></span>
+        <span title="post date" class="post-info">2018-05-19</span>
+        <span title="last modification date" class="post-info">2018-05-19</span>
+        <span title="tags" class="post-info"><a href="/tags/colemak/">Colemak</a>, <a href="/tags/spacemacs/">Spacemacs</a>, <a href="/tags/vim/">Vim</a></span>
         <span title="author" class="post-info">Andrew L</span>
       </div>
       <section>
@@ -85,8 +91,8 @@ After adding this entry, the file contents were as follows:<br />
         <div id="disqus_thread"></div>
         <script type="text/javascript">
           //var disqus_developer = 1;
-          var disqus_identifier = "/blog/2018/03/01/setting-caps-lock-to-backspace-in-visual-studio-code";
-          var disqus_url = "http://adlawren.github.io/blog/2018/03/01/setting-caps-lock-to-backspace-in-visual-studio-code";
+          var disqus_identifier = "/blog/2018/05/19/using-colemak-visual-mode-keybindings-in-spacemacs";
+          var disqus_url = "http://adlawren.github.io/blog/2018/05/19/using-colemak-visual-mode-keybindings-in-spacemacs";
           var disqus_shortname = 'adlawren';
           /* * * DON'T EDIT BELOW THIS LINE * * */
           (function() {

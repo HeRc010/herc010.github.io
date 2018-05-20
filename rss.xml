@@ -4,10 +4,17 @@
     <title>Bits and Bytes</title>
     <link>http://adlawren.github.io</link>
     <description>Notes from the deviant pursuits of a technical vagrant</description>
-    <pubDate>Sat, 05 May 2018 18:04:23 MDT</pubDate>
-    <lastBuildDate>Sat, 05 May 2018 18:04:23 MDT</lastBuildDate>
+    <pubDate>Sat, 19 May 2018 18:14:33 MDT</pubDate>
+    <lastBuildDate>Sat, 19 May 2018 18:14:33 MDT</lastBuildDate>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>Org-page static site generator (https://github.com/kelvinh/org-page)</generator>
+    <item>
+      <title>Using Colemak Visual Mode Keybindings in Spacemacs</title>
+      <link>http://adlawren.github.io/blog/2018/05/19/using-colemak-visual-mode-keybindings-in-spacemacs</link>
+      <description><![CDATA[Using Colemak Visual Mode Keybindings in Spacemacs]]></description>
+      <pubDate>2018-05-19</pubDate>
+      <guid>http://adlawren.github.io/blog/2018/05/19/using-colemak-visual-mode-keybindings-in-spacemacs</guid>
+    </item>
     <item>
       <title>Fixing a Broken Multi-Boot System from the Grub Command Prompt</title>
       <link>http://adlawren.github.io/blog/2016/05/07/fixing-a-broken-multi-boot-system-from-the-grub-command-prompt</link>
@@ -70,13 +77,6 @@
       <description><![CDATA[Remapping the Right-Alt Key in Colemak]]></description>
       <pubDate>2018-05-05</pubDate>
       <guid>http://adlawren.github.io/blog/2017/12/15/remapping-the-right-alt-key-in-colemak</guid>
-    </item>
-    <item>
-      <title>Setting Caps Lock to Backspace in Visual Studio Code</title>
-      <link>http://adlawren.github.io/blog/2018/03/01/setting-caps-lock-to-backspace-in-visual-studio-code</link>
-      <description><![CDATA[Setting Caps Lock to Backspace in Visual Studio Code]]></description>
-      <pubDate>2018-05-05</pubDate>
-      <guid>http://adlawren.github.io/blog/2018/03/01/setting-caps-lock-to-backspace-in-visual-studio-code</guid>
     </item>
   </channel>
 </rss>
