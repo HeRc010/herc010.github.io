@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Setting up Gnus in Spacemacs - Bits and Bytes</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrew L" />
+    <meta name="description" content="Setting up Gnus in Spacemacs" />
+    <meta name="keywords" content="Spacemacs, Gnus, Email" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Bits and Bytes</a></h1>
+        <p>Notes from the deviant pursuits of a technical vagrant</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/adlawren">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="//www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="adlawren.github.io">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Setting up Gnus in Spacemacs</h1>
+
+<div id="outline-container-org24d178b" class="outline-2">
+<h2 id="org24d178b">Create the .authinfo.gpg file</h2>
+<div class="outline-text-2" id="text-org24d178b">
+<p>
+Note: you may have to create a gpg key first[1]: gpg --gen-key<br />
+</p>
+
+<p>
+Create an application password for gmail as described <a href="https://support.google.com/accounts/answer/185833?hl=en">here</a>[2].<br />
+</p>
+
+<p>
+In Spacemacs, open a scratch buffer, and insert the following[3]:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">machine smtp.gmail.com login name@gmail.com password SUPER_SECRET_PASS
+machine imap.gmail.com login name@gmail.com port 993 password SUPER_SECRET_PASS
+</pre>
+</div>
+
+<p>
+Substitute "name@gmail.com" for your gmail, and "SUPER_SECRET_PASS" for your application password.<br />
+</p>
+
+<p>
+Save the file:<br />
+</p>
+<ul class="org-ul">
+<li>Ensure that the gpg key that you created earlier is selected in the buffer that automatically opens<br /></li>
+<li>Move the cursor over "[Ok]" in that buffer, and press C-c, C-c<br /></li>
+<li>Enter the password for the key when prompted<br /></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org279528e" class="outline-2">
+<h2 id="org279528e">Configure Gnus in the .spacemacs File</h2>
+<div class="outline-text-2" id="text-org279528e">
+<p>
+Copy the following into the dotspacemacs/init function in the .spacemacs file:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">;; Get email, and store in nnml
+(setq gnus-secondary-select-methods
+'(
+  (nnimap "gmail"
+           (nnimap-address
+            "imap.gmail.com")
+           (nnimap-server-port 993)
+           (nnimap-stream ssl))
+  ))
+
+;; Send email via Gmail:
+(setq message-send-mail-function 'smtpmail-send-it
+  smtpmail-default-smtp-server "smtp.gmail.com")
+
+;; Archive outgoing email in Sent folder on imap.gmail.com:
+(setq gnus-message-archive-method '(nnimap "imap.gmail.com")
+    gnus-message-archive-group "[Gmail]/Sent Mail")
+
+;; set return email address based on incoming email address
+(setq gnus-posting-styles
+    '(((header "to" "address@outlook.com")
+       (address "address@outlook.com"))
+  ((header "to" "address@gmail.com")
+     (address "address@gmail.com"))))
+
+;; store email in ~/gmail directory
+(setq nnml-directory "~/gmail")
+(setq message-directory "~/gmail")
+</pre>
+</div>
+
+<p>
+Restart Spacemacs and use SPC a g to launch gnus.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfda3850" class="outline-2">
+<h2 id="orgfda3850">Sources</h2>
+<div class="outline-text-2" id="text-orgfda3850">
+<p>
+[1] <a href="http://www.webupd8.org/2010/01/how-to-create-your-own-gpg-key.html">http://www.webupd8.org/2010/01/how-to-create-your-own-gpg-key.html, "How to Create a GPG Key &#91;Ubuntu&#93;", 2010.</a> [Accessed: 19-May-2018].<br />
+[2] <a href="https://support.google.com/accounts/answer/185833?hl=en">https://support.google.com/accounts/answer/185833?hl=en, "Sign in Using App Passwords".</a> [Accessed: 19-May-2018].<br />
+[3] <a href="http://spacemacs.org/layers/+email/gnus/README.html">http://spacemacs.org/layers/+email/gnus/README.html, "Gnus layer", 2016.</a> [Accessed: 19-May-2018].<br />
+</p>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2018-05-19</span>
+        <span title="last modification date" class="post-info">2018-05-19</span>
+        <span title="tags" class="post-info"><a href="/tags/spacemacs/">Spacemacs</a>, <a href="/tags/gnus/">Gnus</a></span>
+        <span title="author" class="post-info">Andrew L</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2018/05/19/setting-up-gnus-in-spacemacs";
+          var disqus_url = "http://adlawren.github.io/blog/2018/05/19/setting-up-gnus-in-spacemacs";
+          var disqus_shortname = 'adlawren';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="//disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="//code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 9.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:adlawren &lt;at&gt; onyx">Andrew L</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>
