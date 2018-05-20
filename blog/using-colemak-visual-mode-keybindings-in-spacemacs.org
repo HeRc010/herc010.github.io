@@ -1,0 +1,38 @@
+#+TITLE:       Using Colemak Visual Mode Keybindings in Spacemacs
+#+AUTHOR:      Andrew L
+#+EMAIL:       adlawren@onyx
+#+DATE:        2018-05-19 Sat
+#+URI:         /blog/%y/%m/%d/using-colemak-visual-mode-keybindings-in-spacemacs
+#+KEYWORDS:    Colemak, Spacemacs, Vim
+#+TAGS:        Colemak, Spacemacs, Vim
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Using Colemak Visual Mode Keybindings in Spacemacs
+
+#+OPTIONS: \n:t
+
+* Overview
+
+By default, the keybindings of visual-mode in Spacemacs (and by extension, in Vim) are tailored to the Qwerty keyboard layout. In order to remap the keybindings to be better suited for the Colemak keyboard, I used an external package as described below.
+
+* Details
+
+Add the colemak-evil package to additional-packages in the .spacemacs file:
+
+#+BEGIN_SRC emacs-lisp
+dotspacemacs-additional-packages '(colemak-evil)
+#+END_SRC
+
+Require the package in the user-config function in the .spacemacs file:
+
+#+BEGIN_SRC emacs-lisp
+(defun dotspacemacs/user-config ()
+  ...
+  (require 'colemak-evil)
+  ...
+  )
+#+END_SRC
+ 
+* Sources
+
+[1] [[https://github.com/patbl/colemak-evil#setup][https://github.com/patbl/colemak-evil#setup, "Colemak Evil"]] [Accessed: 19-May-2018].
