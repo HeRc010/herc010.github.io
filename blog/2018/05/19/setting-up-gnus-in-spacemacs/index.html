@@ -32,9 +32,9 @@
 <div class="post">
 <h1>Setting up Gnus in Spacemacs</h1>
 
-<div id="outline-container-org24d178b" class="outline-2">
-<h2 id="org24d178b">Create the .authinfo.gpg file</h2>
-<div class="outline-text-2" id="text-org24d178b">
+<div id="outline-container-orgfc7aecf" class="outline-2">
+<h2 id="orgfc7aecf">Create the .authinfo.gpg file</h2>
+<div class="outline-text-2" id="text-orgfc7aecf">
 <p>
 Note: you may have to create a gpg key first[1]: gpg --gen-key<br />
 </p>
@@ -68,9 +68,9 @@ Save the file:<br />
 </div>
 </div>
 
-<div id="outline-container-org279528e" class="outline-2">
-<h2 id="org279528e">Configure Gnus in the .spacemacs File</h2>
-<div class="outline-text-2" id="text-org279528e">
+<div id="outline-container-org9dfad90" class="outline-2">
+<h2 id="org9dfad90">Configure Gnus in the .spacemacs File</h2>
+<div class="outline-text-2" id="text-org9dfad90">
 <p>
 Copy the following into the dotspacemacs/init function in the .spacemacs file:<br />
 </p>
@@ -113,13 +113,29 @@ Restart Spacemacs and use SPC a g to launch gnus.<br />
 </div>
 </div>
 
-<div id="outline-container-orgfda3850" class="outline-2">
-<h2 id="orgfda3850">Sources</h2>
-<div class="outline-text-2" id="text-orgfda3850">
+<div id="outline-container-orgbd4041c" class="outline-2">
+<h2 id="orgbd4041c">Setting the Proper SMTP Service Port</h2>
+<div class="outline-text-2" id="text-orgbd4041c">
+<p>
+In order to send emails, you need to set the proper port number which is used when interacting with the SMTP server[4]; add the following to the dotspacemacs/init function in the .spacemacs file[5]:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setq smtpmail-smtp-service 587)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgedfcbb0" class="outline-2">
+<h2 id="orgedfcbb0">Sources</h2>
+<div class="outline-text-2" id="text-orgedfcbb0">
 <p>
 [1] <a href="http://www.webupd8.org/2010/01/how-to-create-your-own-gpg-key.html">http://www.webupd8.org/2010/01/how-to-create-your-own-gpg-key.html, "How to Create a GPG Key &#91;Ubuntu&#93;", 2010.</a> [Accessed: 19-May-2018].<br />
 [2] <a href="https://support.google.com/accounts/answer/185833?hl=en">https://support.google.com/accounts/answer/185833?hl=en, "Sign in Using App Passwords".</a> [Accessed: 19-May-2018].<br />
 [3] <a href="http://spacemacs.org/layers/+email/gnus/README.html">http://spacemacs.org/layers/+email/gnus/README.html, "Gnus layer", 2016.</a> [Accessed: 19-May-2018].<br />
+[4] <a href="https://emacs.stackexchange.com/questions/14677/mu4e-hangs-on-sending-mail/14709#14709">https://emacs.stackexchange.com/questions/14677/mu4e-hangs-on-sending-mail/14709#14709, "mu4e hangs on sending mail", 2015.</a> Accessed: 19-May-2018<br />
+[5] <a href="https://www.gnu.org/software/emacs/manual/html_node/smtpmail/Emacs-Speaks-SMTP.html">https://www.gnu.org/software/emacs/manual/html_node/smtpmail/Emacs-Speaks-SMTP.html, "2 Emacs Speaks SMTP".</a> [Accessed: 19-May-2018]<br />
 </p>
 </div>
 </div>

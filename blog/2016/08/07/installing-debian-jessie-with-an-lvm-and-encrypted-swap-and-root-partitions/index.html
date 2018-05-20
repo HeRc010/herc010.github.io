@@ -32,9 +32,9 @@
 <div class="post">
 <h1>Installing Debian Jessie with an LVM and Encrypted Swap and Root Partitions</h1>
 
-<div id="outline-container-org0384f18" class="outline-2">
-<h2 id="org0384f18">Disclaimer</h2>
-<div class="outline-text-2" id="text-org0384f18">
+<div id="outline-container-orgd876b71" class="outline-2">
+<h2 id="orgd876b71">Disclaimer</h2>
+<div class="outline-text-2" id="text-orgd876b71">
 <p>
 I accept no responsibility for any damage which results from the application (in whole or in part, properly or poorly, explicitly or implicitly) of the approach to disk encryption described below. Ultimately it is your responsibility to ensure that your computer systems are properly configured and secured. Proceed at your own risk.<br />
 </p>
@@ -45,9 +45,9 @@ Furthermore, I accept no responsibility should the approach to disk encryption d
 </div>
 </div>
 
-<div id="outline-container-orgfe6d0b5" class="outline-2">
-<h2 id="orgfe6d0b5">Overview</h2>
-<div class="outline-text-2" id="text-orgfe6d0b5">
+<div id="outline-container-org1db624a" class="outline-2">
+<h2 id="org1db624a">Overview</h2>
+<div class="outline-text-2" id="text-org1db624a">
 <p>
 The intent of this guide is to provide some direction when installing Debian with encrypted swap and root partitions, without using the default option provided by the installer for the installation of an encrypted LVM, which requires the entirety of the available disk to be used, and overwritten by extension.<br />
 </p>
@@ -58,27 +58,27 @@ The approach described below involves manually creating 2 physical partitions, o
 </div>
 </div>
 
-<div id="outline-container-org28afe2e" class="outline-2">
-<h2 id="org28afe2e">Assumptions</h2>
-<div class="outline-text-2" id="text-org28afe2e">
+<div id="outline-container-orgc143831" class="outline-2">
+<h2 id="orgc143831">Assumptions</h2>
+<div class="outline-text-2" id="text-orgc143831">
 <p>
 Some free space is available for the installation prior to running the installer, there are other guides which describe how to allocate this space.<br />
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgd152d01" class="outline-2">
-<h2 id="orgd152d01">Note</h2>
-<div class="outline-text-2" id="text-orgd152d01">
+<div id="outline-container-org1b9bf0a" class="outline-2">
+<h2 id="org1b9bf0a">Note</h2>
+<div class="outline-text-2" id="text-org1b9bf0a">
 <p>
 I'm using a VM in the illustrations, however the approach on a physical system should be predominantly indifferent.<br />
 </p>
 </div>
 </div>
 
-<div id="outline-container-org45401a9" class="outline-2">
-<h2 id="org45401a9">Procedure</h2>
-<div class="outline-text-2" id="text-org45401a9">
+<div id="outline-container-org2c1e383" class="outline-2">
+<h2 id="org2c1e383">Procedure</h2>
+<div class="outline-text-2" id="text-org2c1e383">
 <p>
 Upon reaching the 'Partition Disks' screen of the installer, select the 'manual' option:<br />
 </p>
@@ -571,9 +571,9 @@ Upon completing the remainder of the installation process, and rebooting into th
 </div>
 </div>
 
-<div id="outline-container-org3d60bd2" class="outline-2">
-<h2 id="org3d60bd2">Sources</h2>
-<div class="outline-text-2" id="text-org3d60bd2">
+<div id="outline-container-orgef26543" class="outline-2">
+<h2 id="orgef26543">Sources</h2>
+<div class="outline-text-2" id="text-orgef26543">
 <p>
 [1] <a href="http://serverfault.com/questions/334663/what-is-the-recommended-size-for-a-linux-boot-partition">http://serverfault.com/questions/334663/what-is-the-recommended-size-for-a-linux-boot-partition, "What is the recommended size for a Linux /boot partition?", 2016.</a> [Accessed: 7-Aug-2016].<br />
 [2] <a href="https://strongpasswordgenerator.com/">https://strongpasswordgenerator.com/, "Strong Password Generator", 2016.</a> [Accessed: 7-Aug-2016].<br />
