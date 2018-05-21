@@ -1,0 +1,51 @@
+#+TITLE:       Using Org-page to Publish to GitHub Pages in Spacemacs
+#+AUTHOR:      Andrew L
+#+EMAIL:       adlawren@onyx
+#+DATE:        2018-05-20 Sun
+#+URI:         /blog/%y/%m/%d/using-org-page-to-publish-to-github-pages-in-spacemacs
+#+KEYWORDS:    Org-page, GitHub Pages, Spacemacs
+#+TAGS:        Org-page, GitHub Pages, Spacemacs, Org-mode
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Using Org-page to Publish to GitHub Pages in Spacemacs
+
+#+OPTIONS: \n:t
+
+Note: A lot of the steps described below were taken from [[http://codys.club/blog/2015/07/05/blogging-with-emacs-and-org-mode/][here]].
+
+* Install and Configure Org-page
+
+Add org-page to additional-packages in the .spacemacs file.
+
+Add the following to the user-config function in the .spacemacs file:
+
+#+BEGIN_SRC emacs-lisp
+(require 'org-page)
+(setq op/repository-directory "/path/to/repository")
+(setq op/site-domain "http://githubusername.github.io")
+(setq op/personal-github-link "https://github.com/githubusername")
+(setq op/site-main-title "Blog Title")
+(setq op/site-sub-title "Blog Subtitle")
+(setq op/personal-disqus-shortname "shortname")
+#+END_SRC
+
+* Creating a New Repository
+
+Run op/new-repository by pressing SPC SPC op/new-repository. When prompted, specify the path at which the repository should be created.
+
+* Creating a New Post
+
+Run op/new-post by pressing SPC SPC op/new-post. Respond to the prompts accordingly.
+
+* Publishing a Post
+
+Set the remote in the git repository of the blog:
+
+#+BEGIN_SRC sh
+git remote add origin git@github.com:githubusername/githubusername.github.io
+git remote -v
+#+END_SRC
+
+Note that [[https://github.com/kelvinh/org-page#publication][org-page does not automatically commit new posts to git]]; posts need to be committed manually on the source branch prior to running the following command.
+
+Run op/do-publication by pressing SPC SPC op/do-publication. In response to the subsequent prompts, press y, n, y, y.
