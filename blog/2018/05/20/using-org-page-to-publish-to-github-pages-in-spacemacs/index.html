@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>Setting Caps Lock to Backspace in Visual Studio Code - Bits and Bytes</title>
+    <title>Using Org-page to Publish to GitHub Pages in Spacemacs - Bits and Bytes</title>
     <meta charset="utf-8" />
     <meta name="author" content="Andrew L" />
-    <meta name="description" content="Setting Caps Lock to Backspace in Visual Studio Code" />
-    <meta name="keywords" content="Ubuntu, Colemak, Keyboard Layout, Visual Studio Code" />
+    <meta name="description" content="Using Org-page to Publish to GitHub Pages in Spacemacs" />
+    <meta name="keywords" content="Org-page, GitHub Pages, Spacemacs" />
     <link rel="stylesheet" href="/media/css/main.css" type="text/css">
     <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
   </head>
@@ -30,44 +30,73 @@
 
 <div>
 <div class="post">
-<h1>Setting Caps Lock to Backspace in Visual Studio Code</h1>
-
-<div id="outline-container-org8bfff11" class="outline-2">
-<h2 id="org8bfff11">Overview</h2>
-<div class="outline-text-2" id="text-org8bfff11">
+<h1>Using Org-page to Publish to GitHub Pages in Spacemacs</h1>
 <p>
-When using Visual Studio Code on Ubuntu, despite using the Colemak keyboard layout, the Caps Lock key was not remapped to Backspace in the editor. In order to remap the key manually, I used the following process.<br />
+Note: A lot of the steps described below were taken from <a href="http://codys.club/blog/2015/07/05/blogging-with-emacs-and-org-mode/">here</a>.<br />
 </p>
-</div>
-</div>
 
-<div id="outline-container-orga2eab45" class="outline-2">
-<h2 id="orga2eab45">Solution</h2>
-<div class="outline-text-2" id="text-orga2eab45">
+<div id="outline-container-org60df2a1" class="outline-2">
+<h2 id="org60df2a1">Install and Configure Org-page</h2>
+<div class="outline-text-2" id="text-org60df2a1">
 <p>
-Edit the keybindings.json file by selecting "File" -&gt; "Preferences" -&gt; "Keyboard Shortcuts." In the "Keyboard Shortcuts" window that opens, there's a line which reads "For advanced customizations open and edit keybindings.json", click on "keybindings.json."<br />
+Add org-page to additional-packages in the .spacemacs file.<br />
 </p>
 
 <p>
-Add the following entry to the file:<br />
+Add the following to the user-config function in the .spacemacs file:<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-js">{"key": "capslock", "command": "deleteLeft"}
+<pre class="src src-emacs-lisp">(require 'org-page)
+(setq op/repository-directory "/path/to/repository")
+(setq op/site-domain "http://githubusername.github.io")
+(setq op/personal-github-link "https://github.com/githubusername")
+(setq op/site-main-title "Blog Title")
+(setq op/site-sub-title "Blog Subtitle")
+(setq op/personal-disqus-shortname "shortname")
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1cf71b7" class="outline-2">
+<h2 id="org1cf71b7">Creating a New Repository</h2>
+<div class="outline-text-2" id="text-org1cf71b7">
+<p>
+Run op/new-repository by pressing SPC SPC op/new-repository. When prompted, specify the path at which the repository should be created.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org354e243" class="outline-2">
+<h2 id="org354e243">Creating a New Post</h2>
+<div class="outline-text-2" id="text-org354e243">
+<p>
+Run op/new-post by pressing SPC SPC op/new-post. Respond to the prompts accordingly.<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9d0cdcf" class="outline-2">
+<h2 id="org9d0cdcf">Publishing a Post</h2>
+<div class="outline-text-2" id="text-org9d0cdcf">
+<p>
+Set the remote in the git repository of the blog:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">git remote add origin git@github.com:githubusername/githubusername.github.io
+git remote -v
 </pre>
 </div>
 
 <p>
-After adding this entry, the file contents were as follows:<br />
+Note that <a href="https://github.com/kelvinh/org-page#publication">org-page does not automatically commit new posts to git</a>; posts need to be committed manually on the source branch prior to running the following command.<br />
 </p>
 
-<div class="org-src-container">
-<pre class="src src-js">// Place your key bindings in this file to overwrite the defaults
-[
-    { "key": "capslock", "command": "deleteLeft"}
-]
-</pre>
-</div>
+<p>
+Run op/do-publication by pressing SPC SPC op/do-publication. In response to the subsequent prompts, press y, n, y, y.<br />
+</p>
 </div>
 </div>
 
@@ -75,9 +104,9 @@ After adding this entry, the file contents were as follows:<br />
 </div>
     <div>
       <div class="post-meta">
-        <span title="post date" class="post-info">2018-03-01</span>
-        <span title="last modification date" class="post-info">2018-05-05</span>
-        <span title="tags" class="post-info"><a href="/tags/ubuntu/">Ubuntu</a>, <a href="/tags/colemak/">Colemak</a>, <a href="/tags/keyboard-layout/">Keyboard Layout</a>, <a href="/tags/visual-studio-code/">Visual Studio Code</a></span>
+        <span title="post date" class="post-info">2018-05-20</span>
+        <span title="last modification date" class="post-info">2018-05-20</span>
+        <span title="tags" class="post-info"><a href="/tags/org-page/">Org-page</a>, <a href="/tags/github-pages/">GitHub Pages</a>, <a href="/tags/spacemacs/">Spacemacs</a>, <a href="/tags/org-mode/">Org-mode</a></span>
         <span title="author" class="post-info">Andrew L</span>
       </div>
       <section>
@@ -85,8 +114,8 @@ After adding this entry, the file contents were as follows:<br />
         <div id="disqus_thread"></div>
         <script type="text/javascript">
           //var disqus_developer = 1;
-          var disqus_identifier = "/blog/2018/03/01/setting-caps-lock-to-backspace-in-visual-studio-code";
-          var disqus_url = "http://adlawren.github.io/blog/2018/03/01/setting-caps-lock-to-backspace-in-visual-studio-code";
+          var disqus_identifier = "/blog/2018/05/20/using-org-page-to-publish-to-github-pages-in-spacemacs";
+          var disqus_url = "http://adlawren.github.io/blog/2018/05/20/using-org-page-to-publish-to-github-pages-in-spacemacs";
           var disqus_shortname = 'adlawren';
           /* * * DON'T EDIT BELOW THIS LINE * * */
           (function() {

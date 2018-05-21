@@ -4,10 +4,17 @@
     <title>Bits and Bytes</title>
     <link>http://adlawren.github.io</link>
     <description>Notes from the deviant pursuits of a technical vagrant</description>
-    <pubDate>Sat, 19 May 2018 20:33:40 MDT</pubDate>
-    <lastBuildDate>Sat, 19 May 2018 20:33:40 MDT</lastBuildDate>
+    <pubDate>Sun, 20 May 2018 21:34:25 MDT</pubDate>
+    <lastBuildDate>Sun, 20 May 2018 21:34:25 MDT</lastBuildDate>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>Org-page static site generator (https://github.com/kelvinh/org-page)</generator>
+    <item>
+      <title>Using Org-page to Publish to GitHub Pages in Spacemacs</title>
+      <link>http://adlawren.github.io/blog/2018/05/20/using-org-page-to-publish-to-github-pages-in-spacemacs</link>
+      <description><![CDATA[Using Org-page to Publish to GitHub Pages in Spacemacs]]></description>
+      <pubDate>2018-05-20</pubDate>
+      <guid>http://adlawren.github.io/blog/2018/05/20/using-org-page-to-publish-to-github-pages-in-spacemacs</guid>
+    </item>
     <item>
       <title>Setting up Gnus in Spacemacs</title>
       <link>http://adlawren.github.io/blog/2018/05/19/setting-up-gnus-in-spacemacs</link>
@@ -70,13 +77,6 @@
       <description><![CDATA[Publishing a Github-Based Rails App to Openshift]]></description>
       <pubDate>2018-05-05</pubDate>
       <guid>http://adlawren.github.io/blog/2016/09/04/publishing-a-github-based-rails-app-to-openshift</guid>
-    </item>
-    <item>
-      <title>Recently Discovered Vulnerability in the OpenSSH Roaming Feature</title>
-      <link>http://adlawren.github.io/blog/2016/02/06/recently-discovered-vulnerability-in-the-openssh-roaming-feature</link>
-      <description><![CDATA[Recently Discovered Vulnerability in the OpenSSH Roaming Feature]]></description>
-      <pubDate>2018-05-05</pubDate>
-      <guid>http://adlawren.github.io/blog/2016/02/06/recently-discovered-vulnerability-in-the-openssh-roaming-feature</guid>
     </item>
   </channel>
 </rss>
