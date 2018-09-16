@@ -4,8 +4,8 @@
     <title>Bits and Bytes</title>
     <link>http://adlawren.github.io</link>
     <description>Notes from the deviant pursuits of a technical vagrant</description>
-    <pubDate>Sun, 20 May 2018 21:39:00 MDT</pubDate>
-    <lastBuildDate>Sun, 20 May 2018 21:39:00 MDT</lastBuildDate>
+    <pubDate>Sat, 15 Sep 2018 20:32:34 MDT</pubDate>
+    <lastBuildDate>Sat, 15 Sep 2018 20:32:34 MDT</lastBuildDate>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>Org-page static site generator (https://github.com/kelvinh/org-page)</generator>
     <item>
@@ -58,25 +58,25 @@
       <guid>http://adlawren.github.io/blog/2016/08/07/installing-debian-jessie-with-an-lvm-and-encrypted-swap-and-root-partitions</guid>
     </item>
     <item>
-      <title>Mozilla Permits the Use of Multiple SHA-1 Certificates</title>
-      <link>http://adlawren.github.io/blog/2016/02/27/mozilla-permits-the-use-of-multiple-sha-1-certificates</link>
-      <description><![CDATA[Mozilla Permits the Use of Multiple SHA-1 Certificates]]></description>
-      <pubDate>2018-05-05</pubDate>
-      <guid>http://adlawren.github.io/blog/2016/02/27/mozilla-permits-the-use-of-multiple-sha-1-certificates</guid>
-    </item>
-    <item>
-      <title>Multiple Vulnerabilities Discovered in the Torrents Time Application</title>
-      <link>http://adlawren.github.io/blog/2016/02/13/multiple-vulnerabilities-discovered-in-the-torrents-time-application</link>
-      <description><![CDATA[Multiple Vulnerabilities Discovered in the Torrents Time Application]]></description>
-      <pubDate>2018-05-05</pubDate>
-      <guid>http://adlawren.github.io/blog/2016/02/13/multiple-vulnerabilities-discovered-in-the-torrents-time-application</guid>
-    </item>
-    <item>
       <title>Publishing a Github-Based Rails App to Openshift</title>
       <link>http://adlawren.github.io/blog/2016/09/04/publishing-a-github-based-rails-app-to-openshift</link>
       <description><![CDATA[Publishing a Github-Based Rails App to Openshift]]></description>
       <pubDate>2018-05-05</pubDate>
       <guid>http://adlawren.github.io/blog/2016/09/04/publishing-a-github-based-rails-app-to-openshift</guid>
+    </item>
+    <item>
+      <title>Remapping the Right-Alt Key in Colemak</title>
+      <link>http://adlawren.github.io/blog/2017/12/15/remapping-the-right-alt-key-in-colemak</link>
+      <description><![CDATA[Remapping the Right-Alt Key in Colemak]]></description>
+      <pubDate>2018-05-05</pubDate>
+      <guid>http://adlawren.github.io/blog/2017/12/15/remapping-the-right-alt-key-in-colemak</guid>
+    </item>
+    <item>
+      <title>Setting Caps Lock to Backspace in Visual Studio Code</title>
+      <link>http://adlawren.github.io/blog/2018/03/01/setting-caps-lock-to-backspace-in-visual-studio-code</link>
+      <description><![CDATA[Setting Caps Lock to Backspace in Visual Studio Code]]></description>
+      <pubDate>2018-05-05</pubDate>
+      <guid>http://adlawren.github.io/blog/2018/03/01/setting-caps-lock-to-backspace-in-visual-studio-code</guid>
     </item>
   </channel>
 </rss>
